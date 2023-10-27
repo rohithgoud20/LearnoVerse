@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LearnoVerse</string>
+    <string-array name="interests_array">
+        <item>Type of user</item>
+        <item>Learner</item>
+        <item>Instructor</item>
+    </string-array>
 </resources>
