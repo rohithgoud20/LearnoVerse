@@ -1,27 +1,33 @@
 package com.example.learnoverse;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
-    private ImageButton buttonSearch;
-    private ImageButton buttonProfile;
+    private ImageView buttonSearch;
+    private ImageView buttonProfile;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        editTextSearch = findViewById(R.id.editTextSearch);
-        buttonSearch = findViewById(R.id.buttonSearch);
-        buttonProfile = findViewById(R.id.buttonProfile);
+        editTextSearch =findViewById(R.id.searchbar);
+        buttonSearch = findViewById(R.id.butsearch);
+        buttonProfile = findViewById(R.id.butprofile);
+
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
