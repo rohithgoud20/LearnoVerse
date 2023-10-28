@@ -56,8 +56,11 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,HomePage.class);
+                startActivity(intent);
                 //validate
                //check db and validate
+
                 String user = editText_userId.getText().toString();
                 String password = editText_password.getText().toString();
                 LoginResult loginResult=loginUser(user,password);
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
             }
+
+
         });
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)

@@ -13,9 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
-    private ImageView buttonSearch;
+    private ImageButton buttonSearch;
     private ImageView buttonProfile;
 
 
@@ -78,7 +81,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        // Add your search implementation here
-        // You can start a new activity or fragment to display search results
+
     }
 }
+
+

@@ -16,12 +16,12 @@
         android:paddingEnd="8dp"/>
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/butsearch"
         android:layout_width="64dp"
         android:layout_height="49dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/img_2" />
+        android:src="@android:drawable/ic_menu_search" />
 
 
 
