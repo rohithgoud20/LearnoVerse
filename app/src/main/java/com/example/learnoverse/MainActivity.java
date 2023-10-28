@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query the database for the user's record based on the username
-        String[] columns = { "password" };
+        String[] columns = { "password","salt"};
         String selection = "email = ?";
         String[] selectionArgs =  {username};
 
