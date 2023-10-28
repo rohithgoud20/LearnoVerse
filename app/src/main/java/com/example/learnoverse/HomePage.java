@@ -22,7 +22,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
-    private ImageButton buttonSearch;
+    private ImageView buttonSearch;
     private ImageView buttonProfile;
 
 

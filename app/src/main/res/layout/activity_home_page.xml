@@ -1,34 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/searchbar"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"/>
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/searchbar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
 
 
-    <ImageButton
-        android:id="@+id/butsearch"
-        android:layout_width="64dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center_vertical"
-        android:src="@android:drawable/ic_menu_search" />
+        <ImageView
+            android:id="@+id/butsearch"
+            android:layout_width="64dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_vertical"
+            android:src="@android:drawable/ic_menu_search"
+            tools:layout_editor_absoluteX="129dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/butprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_profile"
+            tools:layout_editor_absoluteX="116dp"
+            tools:layout_editor_absoluteY="43dp" />
 
 
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/butprofile"
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_profile"
-        android:layout_gravity="center_vertical"/>
+        android:columnCount="2"
+        android:rowCount="2"
+        android:padding="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp">
+
+            <!-- Add your dashboard item 1 UI components here -->
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp">
+
+            <!-- Add your dashboard item 2 UI components here -->
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Add more CardViews or other UI components for the dashboard items -->
+
+    </GridLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Other layout components -->
+
+        <LinearLayout
+            android:id="@+id/bottomButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/materials"
+                android:layout_weight="1"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/schedule"
+                android:layout_weight="1"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home"
+                android:layout_weight="1"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chat"
+                android:layout_weight="1"
+                android:layout_margin="8dp"/>
+            <ImageView
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/progress"
+                android:layout_weight="1"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

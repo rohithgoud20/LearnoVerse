@@ -61,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
                 String user = editText_userId.getText().toString();
                 String password = editText_password.getText().toString();
                 LoginResult loginResult=loginUser(user,password);
+                Intent intent = new Intent(MainActivity.this,HomePage.class);
+                startActivity(intent);
                 if (loginResult == LoginResult.SUCCESS) {
                     printToast("Login success");
-                    Intent intent = new Intent(MainActivity.this,HomePage.class);
-                    startActivity(intent);
+
                 }
                 else if (loginResult == LoginResult.INVALID_USERNAME) {
                         printToast("Invalid username");
