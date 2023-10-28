@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">LearnoVerse</string>
+    <string name="i_m_a_learner">I\'m a Learner</string>
+    <string name="i_m_an_instructor">I\'m an Instructor</string>
     <string-array name="interests_array">
         <item>Type of user</item>
         <item>Learner</item>
         <item>Instructor</item>
+    </string-array>
+    <string-array name="time_slots">
+        <item>9-12 am</item>
+        <item>12-3 pm</item>
+        <item>3-6 pm</item>
     </string-array>
 </resources>
