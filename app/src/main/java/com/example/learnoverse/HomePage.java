@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
+    private boolean hasNotifications = true;
     private ImageView buttonSearch;
     private static final int PICK_IMAGE = 100;
     private ImageView buttonProfile;
@@ -51,18 +53,33 @@ public class HomePage extends AppCompatActivity {
         recyclerView.setLayoutManager(imlayoutManager);
         ImageAdapter adapter = new ImageAdapter(images,this);
         recyclerView.setAdapter(adapter);
+        ImageView notificationDot = findViewById(R.id.butnotification); // Change to your actual ID
 
-        videoRecyclerView = findViewById(R.id.videoRecyclerView);
-        videoAdapter = new VideoAdapter(this, getVideoItems()); // Implement getVideoItems() to get video data
-        LinearLayoutManager vilayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        videoRecyclerView.setLayoutManager(vilayoutManager);
+        if (hasNotifications) {
+            notificationDot.setVisibility(View.VISIBLE);
+        } else {
+            notificationDot.setVisibility(View.INVISIBLE);
+        }
+
+        RecyclerView videoRecyclerView = findViewById(R.id.videoRecyclerView);
+
+        videoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        List<String> videoUrls = Arrays.asList(
+                "android.resource://" + getPackageName() + "/" + R.raw.video1,
+                "android.resource://" + getPackageName() + "/" + R.raw.video1,
+                "android.resource://" + getPackageName() + "/" + R.raw.video1
+        );
+        VideoAdapter videoAdapter = new VideoAdapter(videoUrls);
         videoRecyclerView.setAdapter(videoAdapter);
 
-        displayVideo = findViewById(R.id.videoWebView);
-        displayVideo.getSettings().setJavaScriptEnabled(true);
-        displayVideo.setWebViewClient(new WebViewClient());
-        String frameVideo = "<html><body>Video From YouTube<br><iframe width=\"420\" height=\"315\" src=\"https://youtu.be/xrzNe3OnfJo?si=-y2Zv62XBJAUkWv0\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
-        displayVideo.loadData(frameVideo, "text/html", "utf-8");
+        notificationDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implement the logic to open notifications here
+                openNotifications();
+            }
+        });
 
 
 
@@ -94,6 +111,13 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void openNotifications() {
+
+        Intent intent = new Intent(HomePage.this, NotificationsActivity.class);
+        startActivity(intent);
+    }
+
 
     private void showPopupMenu(View view) {
 
