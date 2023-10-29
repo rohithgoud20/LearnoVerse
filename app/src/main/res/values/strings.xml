@@ -5,4 +5,6 @@
         <item>Learner</item>
         <item>Instructor</item>
     </string-array>
+    <string name="i_m_an_instructor">im an instructor</string>
+    <string name="i_m_a_learner">im a learner</string>
 </resources>

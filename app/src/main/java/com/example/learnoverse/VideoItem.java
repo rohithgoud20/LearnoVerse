@@ -15,7 +15,7 @@ public class VideoItem {
     }
 
     public String getVideoUrl() {
-        https://youtu.be/xrzNe3OnfJo?si=-y2Zv62XBJAUkWv0
+
         return videoUrl;
     }
 }
