@@ -3,6 +3,8 @@ package com.example.learnoverse;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,17 +27,43 @@ import java.util.List;
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
     private ImageView buttonSearch;
+    private static final int PICK_IMAGE = 100;
     private ImageView buttonProfile;
+    private RecyclerView recyclerView;
+    private ImageAdapter adapter;
+    private List<Integer> images = Arrays.asList(
+            R.drawable.img, R.drawable.img, R.drawable.img, R.drawable.img,R.drawable.img,R.drawable.img);
+    private RecyclerView videoRecyclerView;
+    private VideoAdapter videoAdapter;
+    private WebView displayVideo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        ImageView profileIcon = findViewById(R.id.butprofile);
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
+        recyclerView = findViewById(R.id.imageRecyclerView);
+        LinearLayoutManager imlayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(imlayoutManager);
+        ImageAdapter adapter = new ImageAdapter(images,this);
+        recyclerView.setAdapter(adapter);
+
+        videoRecyclerView = findViewById(R.id.videoRecyclerView);
+        videoAdapter = new VideoAdapter(this, getVideoItems()); // Implement getVideoItems() to get video data
+        LinearLayoutManager vilayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        videoRecyclerView.setLayoutManager(vilayoutManager);
+        videoRecyclerView.setAdapter(videoAdapter);
+
+        displayVideo = findViewById(R.id.videoWebView);
+        displayVideo.getSettings().setJavaScriptEnabled(true);
+        displayVideo.setWebViewClient(new WebViewClient());
+        String frameVideo = "<html><body>Video From YouTube<br><iframe width=\"420\" height=\"315\" src=\"https://youtu.be/xrzNe3OnfJo?si=-y2Zv62XBJAUkWv0\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        displayVideo.loadData(frameVideo, "text/html", "utf-8");
+
 
 
         editTextSearch.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +79,12 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        // Other logic and components for the home activity
+    }
+    private List<VideoItem> getVideoItems() {
+        List<VideoItem> videoItems = new ArrayList<>();
+     //   videoItems.add(new VideoItem("Video 1 Title", "Video 1 Description", R.raw.video1));
+     //   videoItems.add(new VideoItem("Video 2 Title", "Video 2 Description", R.raw.video2));
+        return videoItems;
     }
 
 
