@@ -148,7 +148,10 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-
+    private void navigateToHelpActivity(){
+        Intent intent = new Intent(HomePage.this, HelpActivity.class);
+        startActivity(intent);
+    }
     private void navigateToMainActivity() {
         Intent intent = new Intent(HomePage.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -181,8 +184,10 @@ public class HomePage extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.menu_logout) {
                     navigateToMainActivity();
                     return true;
-
-                } else {
+                } else if(item.getItemId()==R.id.menu_help){
+                    navigateToHelpActivity();
+                    return true;
+                }else {
                     return false;
                 }
             }

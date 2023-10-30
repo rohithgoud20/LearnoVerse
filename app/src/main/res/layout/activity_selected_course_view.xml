@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Instructorlist"
-        android:drawableStart="@drawable/coach"
+
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingBottom="14dp" />
@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select any instructor"
-            android:drawableStart="@drawable/selectall"
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingBottom="16dp" />
