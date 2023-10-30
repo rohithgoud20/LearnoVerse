@@ -37,6 +37,7 @@ public class HomePage extends AppCompatActivity {
     private ImageView buttonProfile;
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
+    private ImageView calenbut;
 //    private List<Integer> images = Arrays.asList(
 //            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
 //            R.drawable.maths,R.drawable.coding);
@@ -55,6 +56,7 @@ public class HomePage extends AppCompatActivity {
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
+        calenbut=findViewById(R.id.button2);
 
         ImageView buttonProgress = findViewById(R.id.progress_button);
         recyclerView = findViewById(R.id.imageRecyclerView);
@@ -130,6 +132,15 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        calenbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomePage.this,CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
 
