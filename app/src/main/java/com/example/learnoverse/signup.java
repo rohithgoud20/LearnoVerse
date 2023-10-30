@@ -47,7 +47,8 @@ public class signup extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private Button buttonSignUp;
+    private Button buttonl;
+    private Button buttonI;
     public enum InsertResult {
         SUCCESS,
         EMAIL_EXISTS,
@@ -62,14 +63,15 @@ public class signup extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
-        buttonSignUp = findViewById(R.id.buttonSignUp);
-        spinnerInterests = findViewById(R.id.spinnerInterests);
-        adapter = ArrayAdapter.createFromResource(this, R.array.interests_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerInterests.setAdapter(adapter);
+        buttonl = findViewById(R.id.learnerButton);
+        buttonI=findViewById(R.id.instructorButton);
+       // spinnerInterests = findViewById(R.id.spinnerInterests);
+      //  adapter = ArrayAdapter.createFromResource(this, R.array.interests_array, android.R.layout.simple_spinner_item);
+       // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       // spinnerInterests.setAdapter(adapter);
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+        buttonl.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -82,7 +84,7 @@ public class signup extends AppCompatActivity {
                 byte[] salt = new byte[16];
                 secureRandom.nextBytes(salt);
                 // Convert the salt to a Base64-encoded string for storage
-                Intent intent = new Intent(signup.this, Profileinput.class);
+                Intent intent = new Intent(signup.this, learnerprofile.class);
                 startActivity(intent);
                 String saltString = Base64.getEncoder().encodeToString(salt);
                 String hashedPassword=encryptPassword(password,salt);

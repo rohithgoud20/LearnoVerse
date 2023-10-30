@@ -71,25 +71,27 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinnerInterests"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_margin="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:drawablePadding="8dp"
-            />
+
 
         <Button
-            android:id="@+id/buttonSignUp"
-
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Sign Up"
-            android:layout_margin="10dp" />
+            android:text="@string/i_m_a_learner"
+            android:id="@+id/learnerButton"
+            android:onClick="openLearnerProfile"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/i_m_an_instructor"
+            android:id="@+id/instructorButton"
+            android:onClick="openInstructorProfile"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
