@@ -25,7 +25,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_list_view, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
         return new ImageViewHolder(itemView);
     }
 
@@ -59,7 +59,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public ImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
+           // titleTextView = itemView.findViewById(R.id.titleTextView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

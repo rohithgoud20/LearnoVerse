@@ -11,7 +11,11 @@
         <item>Complete</item>
     </string-array>
 
-    <string name="i_m_an_instructor">im an instructor</string>
-    <string name="i_m_a_learner">im a learner</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="i_m_a_learner"> Iam a Learner</string>
+    <string name="i_m_an_instructor"> Iam a Instructor</string>
+
 
 </resources>
