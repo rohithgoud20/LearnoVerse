@@ -18,5 +18,12 @@
     <color name="blue">#AEDFF7</color>
     <color name="green">#B2E0B2</color>
 
+    <color name="colorPrimary1">#3F51B5</color>
+    <color name="colorPrimaryDark1">#303F9F</color>
+    <color name="colorAccent1">#FF4081</color>
+    <color name="blue1">#2196F3</color>
+    <color name="green1">#4CAF50</color>
+
+
 
 </resources>

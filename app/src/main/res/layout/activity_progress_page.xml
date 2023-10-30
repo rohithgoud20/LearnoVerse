@@ -8,9 +8,6 @@
     tools:context=".Progress">
 
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:id="@+id/goalsCardView"
         android:layout_height="wrap_content"
@@ -24,12 +21,27 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Goals"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="264dp"
+                    android:layout_height="wrap_content"
+                    android:text="GOALS"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height='24dp'
+                    android:src="@drawable/goal"/>
+            </LinearLayout>
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/goalsRecyclerView"
@@ -39,20 +51,16 @@
 
             <Button
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set up new goal"
                 android:id="@+id/setNewGoalButton"
-               />
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:text="Set up new goal" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 
         <!-- Course name -->
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/progressCardView"
     android:layout_height="wrap_content"
@@ -66,13 +74,24 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Progress"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-        android:textSize="18sp"
-        android:textStyle="bold" />
+            <TextView
+                android:layout_width="275dp"
+                android:layout_height="wrap_content"
+                android:text="PROGRESS"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height='24dp'
+                android:src="@drawable/inprogress"/>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProgressRecyclerView"
@@ -87,9 +106,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progressCardView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         app:cardElevation="4dp"
         app:cardCornerRadius="8dp"
         android:layout_margin="16dp">
@@ -133,14 +149,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Overall Progress"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_margin="8dp"/>
+                <TextView
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:text="OVERALL PROGRESS"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height='24dp'
+                    android:src="@drawable/overallprog"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,10 +181,10 @@
                     android:background="@color/blue"
                     android:layout_margin="3dp"/> <!-- You can define this color in your resources -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="164dp"
                     android:layout_height="wrap_content"
-                    android:text="New Goals"
-                    android:paddingStart="8dp" />
+                    android:paddingStart="8dp"
+                    android:text="New Goals" />
 
                 <!-- Legend for "In Progress" -->
                 <View
