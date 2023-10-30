@@ -3,6 +3,8 @@ package com.example.learnoverse;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,11 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
@@ -23,19 +28,54 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
+    private boolean hasNotifications = true;
     private ImageView buttonSearch;
+    private static final int PICK_IMAGE = 100;
     private ImageView buttonProfile;
+    private RecyclerView recyclerView;
+    private ImageAdapter adapter;
+    private List<Integer> images = Arrays.asList(
+            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
+            R.drawable.maths,R.drawable.coding);
+    private RecyclerView videoRecyclerView;
+    private VideoAdapter videoAdapter;
+    private WebView displayVideo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        ImageView profileIcon = findViewById(R.id.butprofile);
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
+<<<<<<< HEAD
         ImageView buttonProgress = findViewById(R.id.progress_button);
+=======
+        recyclerView = findViewById(R.id.imageRecyclerView);
+        LinearLayoutManager imlayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(imlayoutManager);
+        ImageAdapter adapter = new ImageAdapter(images,this);
+        recyclerView.setAdapter(adapter);
+        ImageView notificationDot = findViewById(R.id.butnotification); // Change to your actual ID
+
+        if (hasNotifications) {
+            notificationDot.setVisibility(View.VISIBLE);
+        } else {
+            notificationDot.setVisibility(View.INVISIBLE);
+        }
+
+
+        notificationDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implement the logic to open notifications here
+                openNotifications();
+            }
+        });
+
+>>>>>>> 83abb797de2a5cce56d8c836a6c1c2ff1ed545fd
 
 
         editTextSearch.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +91,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         buttonProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +103,8 @@ public class HomePage extends AppCompatActivity {
 
 
         // Other logic and components for the home activity
+=======
+>>>>>>> 83abb797de2a5cce56d8c836a6c1c2ff1ed545fd
     }
 
 
@@ -71,6 +114,13 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void openNotifications() {
+
+        Intent intent = new Intent(HomePage.this, NotificationsActivity.class);
+        startActivity(intent);
+    }
+
 
     private void showPopupMenu(View view) {
 
@@ -123,11 +173,7 @@ public class HomePage extends AppCompatActivity {
                 "Introduction to Programming",
                 "Web Development Basics",
                 "Data Science Fundamentals",
-                "Introduction to Machine Learning",
-                "Mobile App Development",
-                "Graphic Design Fundamentals",
-                "Photography Basics",
-                "Music Theory Essentials"
+                "Introduction to Machine Learning"
         );
 
         for (String course : availableCourses) {
