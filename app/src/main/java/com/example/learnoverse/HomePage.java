@@ -34,7 +34,8 @@ public class HomePage extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
     private List<Integer> images = Arrays.asList(
-            R.drawable.img, R.drawable.img, R.drawable.img, R.drawable.img,R.drawable.img,R.drawable.img);
+            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
+            R.drawable.maths,R.drawable.coding);
     private RecyclerView videoRecyclerView;
     private VideoAdapter videoAdapter;
     private WebView displayVideo;
@@ -61,17 +62,6 @@ public class HomePage extends AppCompatActivity {
             notificationDot.setVisibility(View.INVISIBLE);
         }
 
-        RecyclerView videoRecyclerView = findViewById(R.id.videoRecyclerView);
-
-        videoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        List<String> videoUrls = Arrays.asList(
-                "android.resource://" + getPackageName() + "/" + R.raw.video1,
-                "android.resource://" + getPackageName() + "/" + R.raw.video1,
-                "android.resource://" + getPackageName() + "/" + R.raw.video1
-        );
-        VideoAdapter videoAdapter = new VideoAdapter(videoUrls);
-        videoRecyclerView.setAdapter(videoAdapter);
 
         notificationDot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,12 +86,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-    }
-    private List<VideoItem> getVideoItems() {
-        List<VideoItem> videoItems = new ArrayList<>();
-     //   videoItems.add(new VideoItem("Video 1 Title", "Video 1 Description", R.raw.video1));
-     //   videoItems.add(new VideoItem("Video 2 Title", "Video 2 Description", R.raw.video2));
-        return videoItems;
     }
 
 
@@ -170,11 +154,7 @@ public class HomePage extends AppCompatActivity {
                 "Introduction to Programming",
                 "Web Development Basics",
                 "Data Science Fundamentals",
-                "Introduction to Machine Learning",
-                "Mobile App Development",
-                "Graphic Design Fundamentals",
-                "Photography Basics",
-                "Music Theory Essentials"
+                "Introduction to Machine Learning"
         );
 
         for (String course : availableCourses) {
