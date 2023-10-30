@@ -148,10 +148,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    private void navigateToHelpActivity(){
-        Intent intent = new Intent(HomePage.this, HelpActivity.class);
-        startActivity(intent);
-    }
+
     private void navigateToMainActivity() {
         Intent intent = new Intent(HomePage.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -181,13 +178,11 @@ public class HomePage extends AppCompatActivity {
                 if (item.getItemId() == R.id.menu_profile) {
                     navigateToprofilepage();
                     return true;
-                } else if (item.getItemId() == R.id.menu_logout) {
+                }
+                else if (item.getItemId() == R.id.menu_logout) {
                     navigateToMainActivity();
                     return true;
-                } else if(item.getItemId()==R.id.menu_help){
-                    navigateToHelpActivity();
-                    return true;
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -205,6 +200,7 @@ public class HomePage extends AppCompatActivity {
         });
 
     }
+
 
     private void setupSearchBar() {
         editTextSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -3,6 +3,7 @@ package com.example.learnoverse;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
 import android.view.View;
@@ -15,6 +16,7 @@ public class InstructorProfile extends AppCompatActivity {
     private int year, month, day;
     private Button dateOfBirthButton;
     private EditText dateOfBirthEditText;
+    private Button subbut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +25,18 @@ public class InstructorProfile extends AppCompatActivity {
 
         dateOfBirthButton = findViewById(R.id.dateOfBirthButton); // Make sure to use the correct ID
         dateOfBirthEditText = findViewById(R.id.dateOfBirthEditText); // Use the correct ID for the EditText
-
+        subbut=findViewById(R.id.conButton);
         dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(999); // Show the date picker dialog
+            }
+        });
+        subbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InstructorProfile.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

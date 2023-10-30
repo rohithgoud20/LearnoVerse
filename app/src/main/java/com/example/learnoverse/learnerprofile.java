@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ public class learnerprofile extends AppCompatActivity {
     private int year, month, day;
     private Button dateOfBirthButton;
     private EditText dateOfBirthEditText;
+    private Button submitbut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +25,21 @@ public class learnerprofile extends AppCompatActivity {
 
         dateOfBirthButton = findViewById(R.id.dateOfBirthButton); // Make sure to use the correct ID
         dateOfBirthEditText = findViewById(R.id.dateOfBirthEditText); // Use the correct ID for the EditText
-
+        submitbut=findViewById(R.id.continueButton);
         dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(999); // Show the date picker dialog
             }
         });
+        submitbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(learnerprofile.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

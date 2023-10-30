@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -81,7 +82,8 @@ public class signup extends AppCompatActivity {
                 byte[] salt = new byte[16];
                 secureRandom.nextBytes(salt);
                 // Convert the salt to a Base64-encoded string for storage
-
+                Intent intent = new Intent(signup.this, Profileinput.class);
+                startActivity(intent);
                 String saltString = Base64.getEncoder().encodeToString(salt);
                 String hashedPassword=encryptPassword(password,salt);
 
