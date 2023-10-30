@@ -1,0 +1,17 @@
+<!-- divider.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Default color for dividers -->
+    <item android:state_enabled="true">
+        <shape>
+            <solid android:color="#CCCCCC" /> <!-- Default color for dividers -->
+            <size android:height="1dp" /> <!-- Height of the divider line -->
+        </shape>
+    </item>
+    <!-- Color for dividers in alternating rows -->
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#E0E0E0" /> <!-- Color for dividers in alternating rows -->
+            <size android:height="1dp" /> <!-- Height of the divider line -->
+        </shape>
+    </item>
+</selector>

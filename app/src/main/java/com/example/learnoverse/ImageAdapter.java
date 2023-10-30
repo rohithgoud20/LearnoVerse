@@ -1,45 +1,76 @@
 package com.example.learnoverse;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+    private List<ImageItem> imageItems;
 
-    private List<Integer> images;
-    private Context context;
+    public ImageAdapter(List<ImageItem> imageItems) {
+        this.imageItems = imageItems;
+        Log.i(TAG, "imagelist "+ this.imageItems);
+    }
 
-    public ImageAdapter(List<Integer> images, Context context) {
-        this.images = images;
-        this.context = context;
+
+
+    @Override
+    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_list_view, parent, false);
+        return new ImageViewHolder(itemView);
     }
 
     @Override
-    public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
-        return new ImageViewHolder(view);
-    }
+    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        ImageItem item = imageItems.get(position);
 
-    @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
-        int imageResource = images.get(position);
-        holder.imageView.setImageResource(imageResource);
+        holder.imageView.setImageResource(item.getImageResId());
+        holder.titleTextView.setText( item.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return imageItems.size();
+    }
+    public interface OnItemClickListener {
+        void onItemClick(ImageItem item);
     }
 
-    public static class ImageViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
+
+
+    public class ImageViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView titleTextView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onItemClick(imageItems.get(position));
+                        }
+                    }
+                }
+            });
         }
     }
 }

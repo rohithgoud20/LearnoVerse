@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="@color/gray">
-
+        android:background="@color/white">
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
@@ -21,7 +20,8 @@
             android:layout_weight="1"
             android:textSize="30sp"
             android:text="Welcome"
-            android:textAlignment="center" />
+            android:layout_gravity="left"
+            />
         <ImageView
             android:id="@+id/butnotification"
             android:layout_width="wrap_content"
@@ -41,65 +41,91 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="96dp"
+        android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@color/light_gray">
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/butsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="12dp"
+            android:src="@drawable/search" />
 
         <EditText
             android:id="@+id/searchbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
             android:hint="Search"
+            android:padding="12dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/light_gray"
-            android:backgroundTint="@color/light_gray"
-            android:padding="12dp" />
+            android:textColorHint="@color/white"
+            android:layout_toEndOf="@id/butsearch"/>
 
-        <ImageView
-            android:id="@+id/butsearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/search"
-            android:padding="12dp" />
-    </LinearLayout>
+</RelativeLayout>
 
-    <!-- Add the necessary components above the horizontal scroll view -->
-    <LinearLayout
+    <!-- Choose Subjects Section -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/light_gray">
-
-        <TextView
+        android:layout_margin="16dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="Choose Subjects"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="16dp" />
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/white">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:text="Choose Subjects"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/imageRecyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:layout_marginTop="30dp">
 
-        </HorizontalScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
+
+            <!-- Other components below the horizontal scroll view -->
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Add Video Recommendations and Bottom Buttons sections here -->
 
 
-        <!-- Other components below the horizontal scroll view -->
 
-    </LinearLayout>
+<androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/VedioView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
+        android:layout_margin="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,11 +154,12 @@
 
         </HorizontalScrollView>
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray">
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/bottomButtons"

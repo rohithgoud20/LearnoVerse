@@ -12,18 +12,18 @@
         android:hint="Course Name"
         android:inputType="text" />
 
-    <EditText
-        android:id="@+id/editTextSessions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Number of Sessions"
-        android:inputType="number" />
+<!--    <EditText-->
+<!--        android:id="@+id/editTextSessions"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Number of Sessions"-->
+<!--        android:inputType="number" />-->
 
-    <EditText
-        android:id="@+id/editTextInstructorName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Instructor Name"
-        android:inputType="text" />
+<!--    <EditText-->
+<!--        android:id="@+id/editTextInstructorName"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Instructor Name"-->
+<!--        android:inputType="text" />-->
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.learnoverse;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.content.ContentValues;
@@ -44,12 +45,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         Goal goal = goals.get(position);
 
 //        holder.goalTextView.setText(goal.getGoalText());
-        holder.courseNameTextView.setText("Course Name: " + goal.getCourseName());
+        Log.i(TAG, "wwhat is the goal name "+ goal.getCourseName());
+        holder.courseNameTextView.setText("Course : "+goal.getCourseName());
         holder.instructorNameTextView.setText("Instructor: " + goal.getInstructorName());
         holder.sessionsTextView.setText("Sessions: " + goal.getNoOfSessions());
         holder.status.setText("Status: " + goal.getStatus());
 
         // Check the status and display the button if it's "New"
+        Log.i(TAG,"wwhat is the goal status "+ goal.getStatus());
         if ("new".equals(goal.getStatus())) {
             holder.enrollButton.setVisibility(View.VISIBLE);
 
@@ -92,9 +95,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
             });
         } else {
             // If the status is not "New," hide the button
-            holder.enrollButton.setVisibility(View.GONE);
+            holder.enrollButton.setVisibility(View.INVISIBLE);
             Log.d("GoalAdapter", "Updating status to 'In Progress' for goalId: " + goal.getStatus());
-
+//            notifyDataSetChanged();
         holder.status.setText("Status: " + goal.getStatus());
         }
     }

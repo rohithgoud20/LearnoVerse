@@ -1,5 +1,7 @@
 package com.example.learnoverse;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -25,6 +27,7 @@ import android.widget.PopupMenu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.example.learnoverse.ImageAdapter;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
@@ -34,9 +37,11 @@ public class HomePage extends AppCompatActivity {
     private ImageView buttonProfile;
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
-    private List<Integer> images = Arrays.asList(
-            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
-            R.drawable.maths,R.drawable.coding);
+//    private List<Integer> images = Arrays.asList(
+//            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
+//            R.drawable.maths,R.drawable.coding);
+    List<ImageItem> images = new ArrayList<>();
+
     private RecyclerView videoRecyclerView;
     private VideoAdapter videoAdapter;
     private WebView displayVideo;
@@ -50,14 +55,40 @@ public class HomePage extends AppCompatActivity {
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
-<<<<<<< HEAD
+
         ImageView buttonProgress = findViewById(R.id.progress_button);
-=======
         recyclerView = findViewById(R.id.imageRecyclerView);
-        LinearLayoutManager imlayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(imlayoutManager);
-        ImageAdapter adapter = new ImageAdapter(images,this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Add images and titles to the list
+        images.add(new ImageItem(R.drawable.cooking, "Cooking"));
+
+        images.add(new ImageItem(R.drawable.physics, "Physics"));
+        images.add(new ImageItem(R.drawable.biology, "Biology"));
+        images.add(new ImageItem(R.drawable.maths, "Maths"));
+        images.add(new ImageItem(R.drawable.coding, "Coding"));
+        images.add(new ImageItem(R.drawable.photography, "Photography"));
+
+        adapter = new ImageAdapter(images);
+
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ImageItem item) {
+                // Handle the item click here
+                // You can use the 'item' object to get data related to the clicked item
+                String title = item.getTitle();
+                Log.i(TAG,"clicked " + title);
+
+                Intent intent= new Intent(HomePage.this,SelectedCourseView.class);
+                intent.putExtra("course_name", title);
+                startActivity(intent);
+
+            }
+        });
+
+
         ImageView notificationDot = findViewById(R.id.butnotification); // Change to your actual ID
 
         if (hasNotifications) {
@@ -75,7 +106,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
->>>>>>> 83abb797de2a5cce56d8c836a6c1c2ff1ed545fd
+
 
 
         editTextSearch.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +122,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
+
         buttonProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +134,7 @@ public class HomePage extends AppCompatActivity {
 
 
         // Other logic and components for the home activity
-=======
->>>>>>> 83abb797de2a5cce56d8c836a6c1c2ff1ed545fd
+
     }
 
 

@@ -33,7 +33,7 @@ public class Progress extends AppCompatActivity implements  NewGoal.NewGoalDialo
         String username = preferences.getString("username", null);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-         goalsRecyclerView = findViewById(R.id.goalsRecyclerView);
+        goalsRecyclerView = findViewById(R.id.goalsRecyclerView);
         goalsRecyclerView.setLayoutManager(layoutManager);
         goalAdapter = new GoalAdapter(getGoalsForUser(username)); // Replace with your method to get goals
         goalsRecyclerView.setAdapter(goalAdapter);
@@ -82,6 +82,18 @@ public class Progress extends AppCompatActivity implements  NewGoal.NewGoalDialo
             }
         });
 
+        int newGoalCount = getNewGoalCount(); // Replace with your actual method
+        int inProgressGoalCount = getInProgressGoalCount();
+//        int totalGoalCount = newGoalCount + inProgressGoalCount;
+//
+//        float percentageNew = (newGoalCount / (float) totalGoalCount) * 100;
+//        float percentageInProgress = (inProgressGoalCount / (float) totalGoalCount) * 100;
+//        float[] data = {percentageNew, percentageInProgress};
+        CustomPieChartView pieChartView = findViewById(R.id.pieChart);
+        pieChartView.setChartData(newGoalCount,inProgressGoalCount);
+        pieChartView.invalidate(); // Call this to redraw the chart
+
+
 
         // Set the adapter for the RecyclerView
 
@@ -102,6 +114,50 @@ public class Progress extends AppCompatActivity implements  NewGoal.NewGoalDialo
 // Now, 'goals' contains all the goals for the specified user.
 
     }
+    public int getNewGoalCount() {
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this); // Replace 'this' with your activity or context
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        int newGoalCount = 0;
+
+        String[] projection = {"COUNT(*)"};
+        String selection = "status = ?";
+        String[] selectionArgs = {"new"};
+
+        Cursor cursor = db.query("Goal", projection, selection, selectionArgs, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            newGoalCount = cursor.getInt(0); // Get the count from the first column
+        }
+
+        cursor.close();
+        db.close();
+
+        return newGoalCount;
+    }
+
+    public int getInProgressGoalCount() {
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this); // Replace 'this' with your activity or context
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        int newGoalCount = 0;
+
+        String[] projection = {"COUNT(*)"};
+        String selection = "status = ?";
+        String[] selectionArgs = {"In Progress"};
+
+        Cursor cursor = db.query("Goal", projection, selection, selectionArgs, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            newGoalCount = cursor.getInt(0); // Get the count from the first column
+        }
+
+        cursor.close();
+        db.close();
+
+        return newGoalCount;
+    }
+
 
     private List<Goal> getInProgressGoalsForUser(String username) {
         List<Goal> inProgressGoals = new ArrayList<>();

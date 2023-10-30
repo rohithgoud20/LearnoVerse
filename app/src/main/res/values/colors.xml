@@ -7,4 +7,16 @@
     <color name="light_gray">#D3D3D3</color>
     <color name="gray">#808080</color>
     <color name="background_color">#673147</color>
+    <color name="session_title">#000000</color>
+    <color name="date_badge">#00a5cf</color>
+    <color name="time_badge">#ff6600</color>
+    <color name="status_badge">#00cc00</color>
+    <color name="card_background">#f4f4f4</color>
+    <color name="goal_button">#ffcc00</color>
+    <color name="enroll_button">#00cc00</color>
+    <!-- res/values/colors.xml -->
+    <color name="blue">#AEDFF7</color>
+    <color name="green">#B2E0B2</color>
+
+
 </resources>

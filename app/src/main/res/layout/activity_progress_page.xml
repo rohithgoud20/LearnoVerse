@@ -70,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Progress"
+
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -98,11 +99,13 @@
             android:id="@+id/completedCoursesLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="invisible"
             android:orientation="vertical">
             <!-- RecyclerView for displaying completed courses -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/completedCoursesRecyclerView"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content" />
             <!-- Course name input -->
             <EditText
@@ -122,6 +125,59 @@
                 android:layout_height="wrap_content"
                 android:text="Submit Rating"
                 android:id="@+id/submitRatingButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/OverallProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overall Progress"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Legend for "New Goals" -->
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@color/blue"
+                    android:layout_margin="3dp"/> <!-- You can define this color in your resources -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Goals"
+                    android:paddingStart="8dp" />
+
+                <!-- Legend for "In Progress" -->
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@color/green"
+                    android:layout_margin="3dp"/> <!-- You can define this color in your resources -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Progress"
+                    android:paddingStart="8dp" />
+            </LinearLayout>
+
+
+            <com.example.learnoverse.CustomPieChartView
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
         </LinearLayout>
 
 </androidx.cardview.widget.CardView>
