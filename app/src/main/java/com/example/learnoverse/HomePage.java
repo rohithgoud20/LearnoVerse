@@ -145,6 +145,11 @@ public class HomePage extends AppCompatActivity {
         finish();
     }
 
+    private void navigateToprofilepage() {
+        Intent intent = new Intent(HomePage.this, profilepage.class);
+        startActivity(intent);
+    }
+
     private void openNotifications() {
 
         Intent intent = new Intent(HomePage.this, NotificationsActivity.class);
@@ -160,11 +165,12 @@ public class HomePage extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_profile) {
-                    // Handle profile option
+                    navigateToprofilepage();
                     return true;
                 } else if (item.getItemId() == R.id.menu_logout) {
                     navigateToMainActivity();
                     return true;
+
                 } else {
                     return false;
                 }
@@ -225,7 +231,7 @@ public class HomePage extends AppCompatActivity {
 
     private void redirectToCourse(String course) {
         // Implement the logic to redirect to the selected course activity
-        Intent intent;
+//        Intent intent;
 //        switch (course) {
 //            case "Introduction to Programming":
 //                intent = new Intent(HomePage.this, IntroductionToProgrammingActivity.class);
