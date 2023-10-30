@@ -178,6 +178,9 @@ public class HomePage extends AppCompatActivity {
                 if (item.getItemId() == R.id.menu_profile) {
                     navigateToprofilepage();
                     return true;
+                }else if (item.getItemId() == R.id.menu_help) {
+                    showHelpDialog();
+                    return true;
                 }
                 else if (item.getItemId() == R.id.menu_logout) {
                     navigateToMainActivity();
@@ -199,6 +202,18 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+    }
+    private void showHelpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Help Menu");
+        builder.setMessage("Author:Group 5\nVersion: version 1.0\nInstructions:1.If you're a new user, sign up for an account using your email \n 2.If you're an existing user, log in using your registered credentials\n" +
+                "3.Navigate through different subjects or categories by swiping or tapping on the respective options.");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // Perform any action on OK click if needed
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
