@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Style for the TextInputLayout hint text appearance -->
+    <style name="TextLabel">
+        <!-- Customize the hint text appearance as needed -->
+         <!-- Set your desired text color -->
+        <item name="android:textSize">10sp</item> <!-- Set your desired text size -->
+        <item name="android:textStyle">bold</item> <!-- Set your desired text style -->
+    </style>
+    <style name="RatingBarStyle" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">24dip</item>
+        <item name="android:maxHeight">24dip</item>
+    </style>
+</resources>

@@ -1,0 +1,59 @@
+<!-- goal_list_item.xml for Horizontal Scrolling of Goal Cards -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="16dp">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+
+            <!-- Course Name -->
+            <TextView
+                android:id="@+id/courseNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Course Name" />
+
+            <!-- Instructor Name -->
+            <TextView
+                android:id="@+id/instructorNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Instructor Name" />
+
+            <!-- Sessions -->
+            <TextView
+                android:id="@+id/sessionsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No. of Sessions" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="status" />
+
+
+            <Button
+                android:id="@+id/enrollButton"
+                android:layout_width="140dp"
+                android:layout_height="38dp"
+                android:text="Enroll" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</androidx.cardview.widget.CardView>

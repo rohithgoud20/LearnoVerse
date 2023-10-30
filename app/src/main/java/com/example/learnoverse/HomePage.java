@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class HomePage extends AppCompatActivity {
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
+        ImageView buttonProgress = findViewById(R.id.progress_button);
 
 
         editTextSearch.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +50,16 @@ public class HomePage extends AppCompatActivity {
                 showPopupMenu(v);
             }
         });
+
+        buttonProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Progress.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         // Other logic and components for the home activity
     }

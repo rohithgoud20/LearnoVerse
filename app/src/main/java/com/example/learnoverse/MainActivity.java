@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -37,8 +39,9 @@ import java.security.spec.KeySpec;
 import java.security.SecureRandom;
 
 public class MainActivity extends AppCompatActivity {
-    private Button buttonSignUp,buttonLogin;
+    private Button buttonLogin;
     private EditText editText_userId,editText_password;
+    private TextView buttonSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -61,10 +64,12 @@ public class MainActivity extends AppCompatActivity {
                 String user = editText_userId.getText().toString();
                 String password = editText_password.getText().toString();
                 LoginResult loginResult=loginUser(user,password);
-                Intent intent = new Intent(MainActivity.this,HomePage.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this,HomePage.class);
+//                startActivity(intent);
                 if (loginResult == LoginResult.SUCCESS) {
                     printToast("Login success");
+                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+                    startActivity(intent);
 
                 }
                 else if (loginResult == LoginResult.INVALID_USERNAME) {
@@ -133,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                 // Password matches
                 cursor.close();
                 db.close();
+                SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("username", username);
+                editor.apply();
+
                 return LoginResult.SUCCESS;
             } else {
                 // Invalid password
