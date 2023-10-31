@@ -10,6 +10,6 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:src="@drawable/img" />
+        android:src="@drawable/webinar" />
 
 </LinearLayout>

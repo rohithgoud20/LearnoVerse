@@ -44,7 +44,7 @@ public class HomePage extends AppCompatActivity {
     List<ImageItem> images = new ArrayList<>();
 
     private RecyclerView videoRecyclerView;
-    private VideoAdapter videoAdapter;
+    private List<VideoItem> videoItems;
     private WebView displayVideo;
 
 
@@ -89,6 +89,17 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
+        videoRecyclerView = findViewById(R.id.videoRecyclerView);
+        LinearLayoutManager layoutMan = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        videoRecyclerView.setLayoutManager(layoutMan);
+        videoItems = new ArrayList<>();
+        videoItems.add(new VideoItem("Photography", "Description 1", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
+        videoItems.add(new VideoItem("Cooking", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
+        videoItems.add(new VideoItem("Maths", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
+        videoItems.add(new VideoItem("Coding", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
+
+        VideoAdapter videoAdapter = new VideoAdapter(videoItems,this);
+        videoRecyclerView.setAdapter(videoAdapter);
 
 
         ImageView notificationDot = findViewById(R.id.butnotification); // Change to your actual ID
@@ -147,6 +158,7 @@ public class HomePage extends AppCompatActivity {
         // Other logic and components for the home activity
 
     }
+
 
 
     private void navigateToMainActivity() {

@@ -1,21 +1,24 @@
 package com.example.learnoverse;
 public class VideoItem {
-    private String videoTitle;
+    private String title;
+    private String description;
     private String videoUrl;
-    private int videoResource;
 
-    public VideoItem(String videoTitle, String videoUrl,  int videoResource) {
-        this.videoTitle = videoTitle;
+    public VideoItem(String title, String description, String videoUrl) {
+        this.title = title;
+        this.description = description;
         this.videoUrl = videoUrl;
-        this.videoResource=videoResource;
     }
 
-    public String getVideoTitle() {
-        return videoTitle;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getVideoUrl() {
-
         return videoUrl;
     }
 }
