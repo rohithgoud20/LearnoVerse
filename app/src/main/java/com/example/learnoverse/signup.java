@@ -65,12 +65,14 @@ public class signup extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonl = findViewById(R.id.learnerButton);
         buttonI=findViewById(R.id.instructorButton);
+
        // spinnerInterests = findViewById(R.id.spinnerInterests);
       //  adapter = ArrayAdapter.createFromResource(this, R.array.interests_array, android.R.layout.simple_spinner_item);
        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
        // spinnerInterests.setAdapter(adapter);
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         buttonl.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -79,12 +81,60 @@ public class signup extends AppCompatActivity {
                 String name = editTextName.getText().toString();
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
-                String usertype = spinnerInterests.getSelectedItem().toString();
+                buttonI.setEnabled(false);
+
+//                String usertype = spinnerInterests.getSelectedItem().toString();
+                String usertype = "Learner";
                 SecureRandom secureRandom = new SecureRandom();
                 byte[] salt = new byte[16];
                 secureRandom.nextBytes(salt);
                 // Convert the salt to a Base64-encoded string for storage
-                Intent intent = new Intent(signup.this, learnerprofile.class);
+
+                String saltString = Base64.getEncoder().encodeToString(salt);
+                String hashedPassword=encryptPassword(password,salt);
+
+                InsertResult insert_action=insertUser(email, hashedPassword, usertype, name, saltString);
+                if (insert_action == InsertResult.SUCCESS) {
+                    printToast("User registered sucessfully");
+                    Intent intent = new Intent(signup.this, learnerprofile.class);
+                    intent.putExtra("user_name",email);
+                    startActivity(intent);
+
+                } else if (insert_action == InsertResult.EMAIL_EXISTS) {
+                    // Email already exists
+                    // Perform actions for email existence
+                    printToast("This user already exists");
+                } else if (insert_action == InsertResult.NULL_VALUES) {
+                    // Null values found
+                    // Perform actions for null values
+                    printToast("Please enter all values");
+                }
+                else if (insert_action == InsertResult.INVALID_EMAIL) {
+                    // Null values found
+                    // Perform actions for null values
+                    printToast("Please valid email");
+                }
+
+            }
+        });
+
+        buttonI.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                // Handle sign-up logic here
+                String name = editTextName.getText().toString();
+                String email = editTextEmail.getText().toString();
+                String password = editTextPassword.getText().toString();
+                buttonI.setEnabled(false);
+
+//                String usertype = spinnerInterests.getSelectedItem().toString();
+                String usertype = "Instructor";
+                SecureRandom secureRandom = new SecureRandom();
+                byte[] salt = new byte[16];
+                secureRandom.nextBytes(salt);
+                // Convert the salt to a Base64-encoded string for storage
+                Intent intent = new Intent(signup.this, InstructorProfile.class);
                 startActivity(intent);
                 String saltString = Base64.getEncoder().encodeToString(salt);
                 String hashedPassword=encryptPassword(password,salt);
