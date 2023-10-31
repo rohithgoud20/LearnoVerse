@@ -11,11 +11,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complete your profile !"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
 
             <ImageView
                 android:id="@+id/learnerImageView"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="26dp"
                 android:contentDescription="App Logo"
@@ -38,6 +47,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:id="@+id/first_name"
                         android:hint="First Name"
                         android:inputType="text"
                         android:padding="12dp"
@@ -48,6 +58,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="Last Name"
+                        android:id="@+id/last_name"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@android:color/black" />
@@ -85,6 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/gender"
                     android:layout_marginBottom="16dp">
 
                     <RadioButton
@@ -105,6 +117,7 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:hint="Email"
+                    android:id="@+id/email"
                     android:inputType="textEmailAddress"
                     android:padding="12dp"
                     android:textColor="@android:color/black"
@@ -116,6 +129,7 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:hint="Phone Number"
+                    android:id="@+id/phone_number"
                     android:inputType="phone"
                     android:padding="12dp"
                     android:textColor="@android:color/black"
@@ -127,6 +141,7 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:hint="Highest Qualification"
+                    android:id="@+id/qualification"
                     android:inputType="text"
                     android:padding="12dp"
                     android:textColor="@android:color/black"
@@ -138,6 +153,7 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:hint="Interests"
+                    android:id="@+id/interests"
                     android:inputType="text"
                     android:padding="12dp"
                     android:textColor="@android:color/black"

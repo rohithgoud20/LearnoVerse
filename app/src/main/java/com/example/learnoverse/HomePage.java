@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +58,11 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         ImageView profileIcon = findViewById(R.id.butprofile);
+        TextView welcomemsg= findViewById(R.id.welcometextView);
+        SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+        String username = preferences.getString("username", null);
+        String firstname = getFirstName(username);
+        welcomemsg.setText("Welcome "+ firstname);
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
@@ -146,6 +156,37 @@ public class HomePage extends AppCompatActivity {
 
         // Other logic and components for the home activity
 
+    }
+
+    private String getFirstName(String username) {
+
+        String firstname =null;
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {"first_name"}; // Assuming you have a constant for the column name
+
+        String selection =  "username = ?";
+        String[] selectionArgs = {username};
+
+        Cursor cursor = db.query(
+                "learner",
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int firstNameIndex = cursor.getColumnIndexOrThrow("first_name");
+            firstname = cursor.getString(firstNameIndex);
+            cursor.close();
+        }
+
+
+        return firstname;
     }
 
 

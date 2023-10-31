@@ -31,11 +31,11 @@
             android:paddingTop="8dp"/>
 
         <Button
-            android:id="@+id/editButton"
+            android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Edit Profile"/>
+            android:text="Save"/>
 
         <!-- CardView for Date of Birth -->
         <androidx.cardview.widget.CardView
@@ -74,6 +74,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
                     android:layout_gravity="right"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:contentDescription="Edit Date of Birth"
                     android:paddingStart="8dp"/>
             </LinearLayout>
@@ -86,12 +88,14 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/dobText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="01/01/2000"
-                    android:paddingStart="8dp"/>
+                    android:paddingStart="8dp"
+
+                />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -122,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
+
                     android:text="Mobile Number"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -144,7 +149,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,7 +207,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -260,7 +265,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/qualification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,6 +311,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
+                    android:clickable="true"
                     android:layout_gravity="right"
                     android:contentDescription="Edit Interests"
                     android:paddingStart="8dp" />
@@ -319,7 +325,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/interests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -376,7 +382,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/languages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

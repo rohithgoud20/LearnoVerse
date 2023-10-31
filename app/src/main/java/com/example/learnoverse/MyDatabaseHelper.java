@@ -34,6 +34,24 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         String createSessionTableQuery = "CREATE TABLE IF NOT EXISTS SessionForCourse (session_id INTEGER PRIMARY KEY AUTOINCREMENT, course_id INTEGER, session_name TEXT NOT NULL, start_date TEXT, start_time TEXT, FOREIGN KEY (course_id) REFERENCES CoursesOffered(course_id))";
         db.execSQL(createSessionTableQuery);
 
+        String createLearnerTableQuery = "CREATE TABLE IF NOT EXISTS learner (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT, " +
+                "first_name TEXT, " +
+                "last_name TEXT, " +
+                "profile_image TEXT, " +
+                "date_of_birth TEXT, " +
+                "languages TEXT, " +
+                "country TEXT, " +
+                "gender TEXT, " +
+                "email TEXT, " +
+                "phone_number TEXT, " +
+                "highest_qualification TEXT, " +
+                "interests TEXT," +
+                "FOREIGN KEY (username) REFERENCES login(email)" +
+                ");";
+        db.execSQL(createLearnerTableQuery);
+
         String insertCoursesData = "INSERT INTO CoursesOffered (course_name, instructor_name, no_of_sessions, rating) VALUES " +
                 "('Cooking', 'John Doe', 10, 4.5), " +
                 "('Cooking', 'chandu', 15, 4), " +

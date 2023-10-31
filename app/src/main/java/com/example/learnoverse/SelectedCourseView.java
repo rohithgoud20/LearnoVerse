@@ -16,6 +16,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -134,7 +136,10 @@ public class SelectedCourseView extends AppCompatActivity  {
                             public void onClick(View v) {
                                 // Handle "Set as Goal" button click
                                 // Store the details into the goal database with status as "new"
-                                storeAsGoal(selectedCourseId);
+                                Integer res = storeAsGoal(selectedCourseId);
+                                if(res==1){
+                                    buttonSetAsGoal.setEnabled(false);
+                                }
                             }
                         });
 
@@ -143,7 +148,11 @@ public class SelectedCourseView extends AppCompatActivity  {
                             public void onClick(View v) {
                                 // Handle "Enroll" button click
                                 // Update the status as "in progress" in the goal database
-                                updateStatusToInProgress(selectedCourseId);
+                                int res =updateStatusToInProgress(selectedCourseId);
+                                if(res==1){
+                                    buttonSetAsGoal.setEnabled(false);
+                                }
+
                             }
                         });
                     }
@@ -179,7 +188,7 @@ public class SelectedCourseView extends AppCompatActivity  {
         db.close();
     }
 
-    private void storeAsGoal(int courseId) {
+    private int storeAsGoal(int courseId) {
 
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -224,11 +233,16 @@ public class SelectedCourseView extends AppCompatActivity  {
                 long goalId = db.insert("Goal", null, values);
                 if (goalId != -1) {
                     Log.i(TAG,"inserted to goal db");
+                    Toast.makeText(this,"Added as Goal",Toast.LENGTH_SHORT).show();
+                    return 1;
+
                 } else {
                     // There was an error saving the goal
                     // Handle the error as needed
+                    return 0;
                 }
             } else {
+                return 0;
                 // Username is not available (e.g., user is not logged in)
             }
 
@@ -236,10 +250,11 @@ public class SelectedCourseView extends AppCompatActivity  {
 
 
         db.close();
+        return 1;
     }
 
     // Method to update status to "in progress" in the goal database
-    private void updateStatusToInProgress(int courseId) {
+    private int updateStatusToInProgress(int courseId) {
         // Implement your database operations to update the status to "in progress"
         // You can use your MyDatabaseHelper for this purpose
         // Example:
@@ -289,6 +304,8 @@ public class SelectedCourseView extends AppCompatActivity  {
                     values.put("status", "In Progress");
                     db.update("Goal", values, "course_name = ? AND instructor_name = ? AND no_of_sessions = ?",
                             new String[]{course_name, instructor_name, String.valueOf((no_of_sessions))});
+                    Toast.makeText(this,"Enrolled for the course",Toast.LENGTH_SHORT).show();
+                return 1;
                 } else {
                     // If no matching record exists, create a new record
                     values.put("user_name", username); // Set the user_name accordingly
@@ -298,6 +315,7 @@ public class SelectedCourseView extends AppCompatActivity  {
                     values.put("status", "In Progress");
 
                     db.insert("Goal", null, values);
+                    return  1;
                 }
             }
 
@@ -306,7 +324,9 @@ public class SelectedCourseView extends AppCompatActivity  {
             mSessionAdapter.notifyDataSetChanged();
 
             db.close();
-        }
+
+        } return 1;
+
     }
 
     // Method to fetch instructor name based on course ID
