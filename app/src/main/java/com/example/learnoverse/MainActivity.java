@@ -68,10 +68,25 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
                 if (loginResult == LoginResult.SUCCESS) {
                     printToast("Login success");
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
+
+                    // Retrieve user type from SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                    String userType = preferences.getString("usertype", "defaultUserType");
+
+                    // Use userType as needed
+                    if ("learner".equals(userType.toLowerCase())) {
+                        Intent intent = new Intent(MainActivity.this, HomePage.class);
+                        startActivity(intent);
+                        // Handle learner specific actions
+                    } else if ("instructor".equals(userType.toLowerCase())) {
+                        // Handle instructor specific actions
+                        Intent intent = new Intent(MainActivity.this, InstructorHomePage.class);
+                        startActivity(intent);
+                    }
+
 
                 }
+
                 else if (loginResult == LoginResult.INVALID_USERNAME) {
                         printToast("Invalid username");
                     }
@@ -120,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query the database for the user's record based on the username
-        String[] columns = { "password","salt"};
+        String[] columns = { "password","salt","usertype"};
         String selection = "email = ?";
         String[] selectionArgs =  {username};
 
@@ -131,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             String hashedPasswordFromDatabase = cursor.getString(cursor.getColumnIndex("password"));
 
             // Convert the salt to a Base64-encoded string for storage
+            String userType = cursor.getString(cursor.getColumnIndex("usertype"));
 
             String saltString = cursor.getString(cursor.getColumnIndex("salt"));
             byte[] salt = Base64.getDecoder().decode(saltString);
@@ -141,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("username", username);
+                editor.putString("usertype", userType);
                 editor.apply();
 
                 return LoginResult.SUCCESS;

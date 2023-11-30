@@ -169,7 +169,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    private String getFirstName(String username) {
+    public String getFirstName(String username) {
 
         String firstname =null;
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);

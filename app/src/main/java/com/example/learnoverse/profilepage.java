@@ -108,19 +108,33 @@ public class profilepage extends AppCompatActivity {
                 String image_type = preferences.getString("image_type", null);
                 Log.d("ImageViewClick", image_type);
 
+                int columnIndex = cursor.getColumnIndex("profile_image");
 
-                if("Uri".equals(image_type)){
-                    Log.d("ImageViewClick", "Uri retreived");
-                    Uri profileImageUri = Uri.parse(String.valueOf(cursor.getColumnIndexOrThrow("profile_image")));
-                    profileImage.setImageURI(profileImageUri);
+                if (columnIndex != -1) {
+                    String imageType = cursor.getString(columnIndex);
 
+                    if (imageType != null) {
+                        if ("Uri".equals(imageType)) {
+                            Log.d("ImageViewClick", "Uri retrieved");
+                            String uriString = cursor.getString(columnIndex);
+                            Uri profileImageUri = Uri.parse(uriString);
+                            profileImage.setImageURI(profileImageUri);
+                        } else if ("Bitmap".equals(imageType)) {
+                            Log.d("ImageViewClick", "Bitmap retrieved");
+                            String base64Image = cursor.getString(columnIndex);
+                            byte[] byteArray = Base64.decode(base64Image, Base64.DEFAULT);
+                            Bitmap profileImageBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            profileImage.setImageBitmap(profileImageBitmap);
+                        }
+                    } else {
+                        // Handle the case where the data is null
+                        // You can set a default image or display an error message
+                    }
+                } else {
+                    // Handle the case where the column doesn't exist in the cursor
                 }
-                if("Bitmap".equals(image_type)){
-                    Log.d("ImageViewClick", "Bitmap retreived");
-                    byte[] byteArray = Base64.decode(cursor.getString(cursor.getColumnIndexOrThrow("profile_image")), Base64.DEFAULT);
-                    Bitmap profileImageBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                    profileImage.setImageBitmap(profileImageBitmap);
-                }
+
+
 
             }
 

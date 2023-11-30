@@ -16,8 +16,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnoVerse"
         tools:targetApi="31">
+        <activity
+            android:name=".InstructorRegisteredStudents"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InstructorHomePage" />
+        </activity>
+        <activity
+            android:name=".Chats"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InstructorHomePage" />
+        </activity>
+        <activity
+            android:name=".InstructorAnalysis"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InstructorHomePage" />
+        </activity>
+        <activity
+            android:name=".InstructorSchedule"
+            android:exported="false">
 
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InstructorHomePage" />
+        </activity>
+        <activity
+            android:name=".InstructorUploadMaterials"
+            android:exported="false">
+            <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".InstructorHomePage" />
+        </activity>
+        <activity
+            android:name=".InstructorCourses"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InstructorHomePage" />
+        </activity>
         <activity
             android:name=".SelectedCourseView"
             android:exported="false">
@@ -25,23 +66,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomePage" />
         </activity>
-
         <activity
             android:name=".Progress"
-            android:exported="true" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomePage" />
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomePage" />
         </activity>
         <activity
             android:name=".NotificationsActivity"
             android:exported="false" />
         <activity
             android:name=".signup"
-            android:exported="false" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".CalendarActivity"
@@ -52,32 +92,39 @@
         </activity>
         <activity
             android:name=".profilepage"
-            android:exported="false" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomePage" />
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomePage" />
         </activity>
         <activity
             android:name=".HomePage"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Profileinput"
             android:exported="true" />
         <activity
             android:name=".learnerprofile"
-            android:exported="false" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".InstructorProfile"
-            android:exported="false" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".InstructorHomePage"
+            android:exported="false">
+
+            <!-- Intent filter for the MAIN action -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
