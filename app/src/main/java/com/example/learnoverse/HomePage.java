@@ -2,37 +2,28 @@ package com.example.learnoverse;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.example.learnoverse.ImageAdapter;
 
 public class HomePage extends AppCompatActivity {
     private EditText editTextSearch;
@@ -179,22 +170,22 @@ public class HomePage extends AppCompatActivity {
         String selection =  "username = ?";
         String[] selectionArgs = {username};
 
-        Cursor cursor = db.query(
-                "learner",
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
+//        Cursor cursor = db.query(
+//                "learner",
+//                projection,
+//                selection,
+//                selectionArgs,
+//                null,
+//                null,
+//                null
+//        );
 
 
-        if (cursor != null && cursor.moveToFirst()) {
-            int firstNameIndex = cursor.getColumnIndexOrThrow("first_name");
-            firstname = cursor.getString(firstNameIndex);
-            cursor.close();
-        }
+//        if (cursor != null && cursor.moveToFirst()) {
+//            int firstNameIndex = cursor.getColumnIndexOrThrow("first_name");
+//            firstname = cursor.getString(firstNameIndex);
+//            cursor.close();
+//        }
 
 
         return firstname;

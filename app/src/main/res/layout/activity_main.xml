@@ -74,6 +74,13 @@ tools:context=".MainActivity">
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:text="Login" />
+                <Button
+                    android:id="@+id/makepayment"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:text="Make Payment" />
 
                 <TextView
                     android:id="@+id/signupButton"
