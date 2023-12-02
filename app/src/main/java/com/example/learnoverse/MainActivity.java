@@ -1,6 +1,7 @@
 package com.example.learnoverse;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +43,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class MainActivity extends AppCompatActivity {
-    private Button buttonLogin;
+    private Button buttonLogin,butmeet;
     private Button makepayment;
     private EditText editText_userId, editText_password;
     private TextView buttonSignUp;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSignUp = findViewById(R.id.signupButton);
         editText_userId = findViewById(R.id.userID_edittext);
         editText_password = findViewById(R.id.password_edittext);
-
+        butmeet=findViewById(R.id.meet);
 
 
 
@@ -110,7 +111,13 @@ public class MainActivity extends AppCompatActivity {
 //
             }
         });
+        butmeet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+               openmeet();
+            }
+        });
         makepayment = findViewById(R.id.makepayment);
         makepayment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +188,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void openmeet() {
+        String meetLink = "https://us04web.zoom.us/j/75595621136?pwd=ehRwnJuuhxAxAfVdoTXLqI21MCSVtQ.1";
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(meetLink));
+
+// Check if there's an app to handle the intent
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            // If no app can handle the intent, open the link in a web browser
+            intent.setData(Uri.parse("https://us04web.zoom.us"));
+            startActivity(intent);
+        }
     }
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
