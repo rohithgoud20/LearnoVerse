@@ -339,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
                             // Redirect to another activity (e.g., HomeActivity) after successful login
                             SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("username", enteredEmail);
                             editor.putString("login_email_id", enteredEmail);
                             editor.putString("usertype", usertype);
                             editor.putInt("userid", userid);
