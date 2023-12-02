@@ -1,0 +1,169 @@
+<!-- res/layout/activity_enrollment_details.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Heading: Enroll for Course -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enroll for Course"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"/>
+
+    <!-- Card No. 1: Course Details and Price -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Left side: Course Details -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Display course details here -->
+        <TextView
+            android:id="@+id/instructorNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize="0.1"
+                android:layout_gravity="left"
+                android:numStars="5"
+                android:rating="0"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:progressTint="@color/gold"
+                android:backgroundTint="@color/gold"
+                android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/noOfSessionsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"/>
+    </LinearLayout>
+
+    <!-- Right side: Display the price -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Price: $XXXX"
+        android:textStyle="bold"/>
+</LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Heading: Schedule -->
+<TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Schedule"
+android:textSize="18sp"
+android:textStyle="bold"
+android:paddingBottom="16dp"/>
+
+    <!-- Card No. 2: Session Details -->
+<androidx.cardview.widget.CardView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardCornerRadius="8dp"
+app:cardElevation="4dp"
+android:layout_marginBottom="16dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Session Details: Spinner for session names, and display for start date and start time -->
+    <Spinner
+        android:id="@+id/sessionsSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/startDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/startTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+</LinearLayout>
+</androidx.cardview.widget.CardView>
+
+    <!-- Heading: Comment for Instructor -->
+<TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Comment for Instructor"
+android:textSize="18sp"
+android:textStyle="bold"
+android:paddingBottom="16dp"/>
+
+    <!-- Card No. 3: User Comment Text Input -->
+<androidx.cardview.widget.CardView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardCornerRadius="8dp"
+app:cardElevation="4dp"
+android:layout_marginBottom="16dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- User Comment Text Input -->
+    <EditText
+        android:id="@+id/userCommentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your comments"
+        android:layout_marginBottom="16dp"/>
+</LinearLayout>
+</androidx.cardview.widget.CardView>
+
+    <!-- Make Payment Button -->
+<Button
+android:id="@+id/makePaymentButton"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Make Payment"
+android:onClick="onMakePaymentClick"/>
+    </LinearLayout>

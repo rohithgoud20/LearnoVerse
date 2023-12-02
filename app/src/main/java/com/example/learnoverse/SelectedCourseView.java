@@ -8,23 +8,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelectedCourseView extends AppCompatActivity  {
     private int currentPage = 1;
@@ -33,159 +36,103 @@ public class SelectedCourseView extends AppCompatActivity  {
     private RecyclerView mSessionRecyclerView;
     private SessionAdapter mSessionAdapter;
     private boolean isExpanded = false;
+
+    public static final String DATABASE_NAME = "learnoverse";
+    public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
+    public static final String username = "admin", password = "learnoverse";
+    public static final String TABLE_NAME = "CoursesOffered";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_course_view);
 
         // Get a reference to the TableLayout
-        TableLayout courseDetailsTable = findViewById(R.id.courseDetailsTable);
+        //   TableLayout courseDetailsTable = findViewById(R.id.courseDetailsTable);
 
         // Initialize the database helper
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-
-        // Open the database for reading
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Intent intent = getIntent();
         String course_name = intent.getStringExtra("course_name");
-        Log.i(TAG, "selected course name " +course_name);
+        AtomicInteger course_id = new AtomicInteger();
+        Log.i(TAG, "selected course name " + course_name);
 
+        new Thread(() -> {
+            try (Connection connection = DriverManager.getConnection(url, username, password);
+                 PreparedStatement statement = connection.prepareStatement(
+                         "SELECT course_id, instructor_id, no_of_sessions, rating, course_description FROM CoursesOffered WHERE course_name = ?")) {
 
-        // The selected course ID (you need to set this based on your logic)
-//        int selectedCourseId = Integer.parseInt(courseId); // Replace with the actual selected course ID
+                // Set the parameter using PreparedStatement to prevent SQL injection
+                statement.setString(1, course_name);
+                Log.d(TAG, "db query " + "SELECT course_id, instructor_id, no_of_sessions, rating FROM CoursesOffered WHERE course_name = " + course_name);
+                // Execute the query
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    List<View> cardViews = new ArrayList<>(); // Store card views here
 
-        // Define the columns you want to retrieve
-        String[] projection = {
-                "course_id",
-                "instructor_name",
-                "no_of_sessions",
-                "rating"
-        };
+                    while (resultSet.next()) {
+                        int courseId = resultSet.getInt("course_id");
+                        int instructor_id = resultSet.getInt("instructor_id");
+                        String instructorName = fetchInstructorName(instructor_id);
+                        int noOfSessions = resultSet.getInt("no_of_sessions");
+                        float rating = resultSet.getFloat("rating");
+                        String course_description = resultSet.getString("course_description");
+                        Log.d(TAG, "resultset " + courseId + instructorName);
+                        // Inflate the card layout
+                        View cardView = LayoutInflater.from(this).inflate(R.layout.courses_cards_layout, null);
 
-        // Define the selection criteria (WHERE clause)
-        String selection = "course_name = ?";
-        String[] selectionArgs = { course_name };
+                        // Find views within the card
+                        TextView instructorNameTextView = cardView.findViewById(R.id.instructorNameTextView);
+                        TextView ratingTextView = cardView.findViewById(R.id.ratingTextView);
+                        TextView noOfSessionsTextView = cardView.findViewById(R.id.noOfSessionsTextView);
+                        TextView descriptionTextView = cardView.findViewById(R.id.descriptionTextView);
 
-        // Execute the query
-        Cursor cursor = db.query(
-                "CoursesOffered", // Table name
-                projection,        // Columns to retrieve
-                selection,         // WHERE clause
-                selectionArgs,     // Selection arguments
-                null,              // GROUP BY clause (if any)
-                null,              // HAVING clause (if any)
-                null               // ORDER BY clause (if any)
-        );
+                        // Populate data into card views
+                        instructorNameTextView.setText(instructorName);
+                        ratingTextView.setText("Rating: " + String.valueOf(rating));
+                        noOfSessionsTextView.setText("Sessions: " + String.valueOf(noOfSessions));
+                        descriptionTextView.setText(course_description);
 
-        // Iterate through the cursor and populate the table
-        while (cursor.moveToNext()) {
-            if (itemCounter >= (currentPage - 1) * ITEMS_PER_PAGE) {
-                Integer selectedCourseId = cursor.getInt(cursor.getColumnIndexOrThrow("course_id"));
-                String instructorName = cursor.getString(cursor.getColumnIndexOrThrow("instructor_name"));
-                int noOfSessions = cursor.getInt(cursor.getColumnIndexOrThrow("no_of_sessions"));
-                float rating = cursor.getFloat(cursor.getColumnIndexOrThrow("rating"));
+                        // Add the card view to the list
+                        cardViews.add(cardView);
 
-                // Create a new TableRow and populate it with course details
-                TextView msg = findViewById(R.id.Instructorlist);
-                TextView selected_instructor = findViewById(R.id.instructor_name);
-                TextView selected_noofsessions = findViewById(R.id.no_of_sessions);
-                CardView instructors = findViewById(R.id.instructors);
-                msg.setText("Available instructors for "+ course_name);
-                TableRow row = new TableRow(this);
-                row.setClickable(true);
+                        // Set up the Enroll button click listener for this card
+                        Button enrollButton = cardView.findViewById(R.id.buttonEnroll);
+                        enrollButton.setOnClickListener(v -> {
+                            // Extract course details from the clicked card view
+                            TextView instructorNameTextViewClicked = cardView.findViewById(R.id.instructorNameTextView);
+                            TextView noOfSessionsTextViewClicked = cardView.findViewById(R.id.noOfSessionsTextView);
 
-                TextView courseNameTextView = new TextView(this);
-//                courseNameTextView.setText(courseName);
+                            String instructorNameClicked = instructorNameTextViewClicked.getText().toString();
+                            String noOfSessionsClicked = noOfSessionsTextViewClicked.getText().toString();
 
-                TextView instructorNameTextView = new TextView(this);
-                instructorNameTextView.setText(instructorName);
-
-                TextView noOfSessionsTextView = new TextView(this);
-                noOfSessionsTextView.setText(String.valueOf(noOfSessions));
-                Button buttonSetAsGoal = findViewById(R.id.buttonSetAsGoal);
-                Button buttonEnroll = findViewById(R.id.buttonEnroll);
-
-                TextView ratingTextView = new TextView(this);
-                ratingTextView.setText(String.valueOf(rating));
-
-                row.setTag(selectedCourseId);
-                // Set the course ID as a tag
-                mSessionRecyclerView = findViewById(R.id.sessionsRecyclerView);
-                mSessionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                mSessionAdapter = new SessionAdapter(new ArrayList<courseSessions>()); // Initialize with an empty list
-                mSessionRecyclerView.setAdapter(mSessionAdapter);
-
-                row.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        // Update the TextViews with the retrieved data
-                        int clickedCourseId = (int) view.getTag();
-                        String instructorName = fetchInstructorName(clickedCourseId);
-                        int totalSessions = fetchTotalSessions(clickedCourseId);
-                        // Update the TextViews within the CardView with the retrieved data
-                        selected_instructor.setText("Instructor Name - " + instructorName);
-                        selected_noofsessions.setText("Total No. of Sessions - " + totalSessions);
-
-                        // Fetch and update the list of sessions here
-                        List<courseSessions> sessions = fetchSessionDetails(clickedCourseId);
-                        mSessionAdapter.updateData(sessions);
-                        instructors.setVisibility(View.VISIBLE);
-                        buttonSetAsGoal.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Handle "Set as Goal" button click
-                                // Store the details into the goal database with status as "new"
-                                Integer res = storeAsGoal(selectedCourseId);
-                                if(res==1){
-                                    buttonSetAsGoal.setEnabled(false);
-                                }
-                            }
-                        });
-
-                        buttonEnroll.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Handle "Enroll" button click
-                                // Update the status as "in progress" in the goal database
-                                int res =updateStatusToInProgress(selectedCourseId);
-                                if(res==1){
-                                    buttonSetAsGoal.setEnabled(false);
-                                }
-
-                            }
+                            // Pass the details to the new activity
+                            Intent intent2 = new Intent(SelectedCourseView.this, EnrollmentDetailsActivity.class);
+                            intent2.putExtra("instructorName", instructorNameClicked);
+                            intent2.putExtra("noOfSessions", noOfSessionsClicked);
+                            intent2.putExtra("courseId", courseId); // Pass the courseId for fetching session details
+                            intent2.putExtra("rating", rating);
+                            intent2.putExtra("description", course_description);
+                            startActivity(intent2);
                         });
                     }
 
-                });
+                    runOnUiThread(() -> {
+                        // Add card views to the cards container
+                        LinearLayout cardsContainer = findViewById(R.id.cardsContainer);
+                        cardsContainer.removeAllViews(); // Clear existing views
 
-//                row.addView(courseNameTextView);
-                row.addView(instructorNameTextView);
-                row.addView(noOfSessionsTextView);
-                row.addView(ratingTextView);
+                        for (View cardView : cardViews) {
+                            cardsContainer.addView(cardView);
+                        }
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
-                instructorNameTextView.setGravity(Gravity.CENTER);
-                noOfSessionsTextView.setGravity(Gravity.CENTER);
-                ratingTextView.setGravity(Gravity.CENTER);
-
-                row.setClickable(true);
-                int rowCounter =0;
-                row.setEnabled(rowCounter % 2 == 0); // Set the enabled state for alternating colors
-                row.setBackgroundResource(R.drawable.table_border); // Set the divider background
-                courseDetailsTable.addView(row);
-                rowCounter++;
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+        }).start();
 
-            itemCounter++;
 
-            if (itemCounter >= currentPage * ITEMS_PER_PAGE) {
-                break;
-            }
-        }
-
-        // Close the cursor and database
-        cursor.close();
-        db.close();
     }
 
     private int storeAsGoal(int courseId) {
@@ -330,35 +277,26 @@ public class SelectedCourseView extends AppCompatActivity  {
     }
 
     // Method to fetch instructor name based on course ID
-    private String fetchInstructorName(int courseId) {
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projection = {
-                "instructor_name"
-        };
-
-        String selection = "course_id = ?";
-        String[] selectionArgs = { String.valueOf(courseId) };
-
-        Cursor cursor = db.query(
-                "CoursesOffered",
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
+    private String fetchInstructorName(int instructor_id) {
         String instructorName = null;
-        if (cursor.moveToFirst()) {
-            instructorName = cursor.getString(cursor.getColumnIndexOrThrow("instructor_name"));
-        }
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT id, name, usertype FROM signup WHERE id = ?")) {
 
-        cursor.close();
-        db.close();
-        Log.i(TAG,"instructor name "+ instructorName);
+            // Set the parameter using PreparedStatement to prevent SQL injection
+            statement.setInt(1, instructor_id);
+
+            // Execute the query
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    instructorName = resultSet.getString("name");
+
+                    Log.i(TAG, "instructor name " + instructorName);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return instructorName;
     }

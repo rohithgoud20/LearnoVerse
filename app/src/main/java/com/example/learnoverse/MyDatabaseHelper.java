@@ -25,7 +25,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTableQuery);
         String createTableQuery2 = "CREATE TABLE IF NOT EXISTS login (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT UNIQUE NOT NULL ,salt TEXT NOT NULL, password  TEXT NOT NULL, usertype TEXT NOT NULL,name TEXT NOT NULL)";
         db.execSQL(createTableQuery2);
-        String createGoalTableQuery = "CREATE TABLE IF NOT EXISTS Goal (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name STRING, course_name TEXT, instructor_name TEXT, goal_text TEXT, no_of_sessions INTEGER, status TEXT,  FOREIGN KEY (user_name) REFERENCES login(email))";
+        String createGoalTableQuery = "CREATE TABLE IF NOT EXISTS Goal (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, user_name STRING, course_name TEXT," +
+                " instructor_name TEXT, goal_text TEXT, no_of_sessions INTEGER, status TEXT,  " +
+                "FOREIGN KEY (user_name) REFERENCES login(email))";
         db.execSQL(createGoalTableQuery);
         String createCoursesTableQuery = "CREATE TABLE IF NOT EXISTS CoursesOffered (" +
                 "course_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
