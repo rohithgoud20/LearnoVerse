@@ -1,6 +1,8 @@
 package com.example.learnoverse;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -327,14 +329,33 @@ public class MainActivity extends AppCompatActivity {
                 if (resultSet.next()) {
                     // User found, compare passwords
                     String storedPassword = resultSet.getString("password");
+                    String usertype = resultSet.getString("usertype");
+                    Integer userid = resultSet.getInt("id");
 
                     if (enteredPassword.equals(storedPassword)) {
                         // Successful login
                         runOnUiThread(() -> {
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             // Redirect to another activity (e.g., HomeActivity) after successful login
-                            Intent intent = new Intent(MainActivity.this, HomePage.class);
-                            startActivity(intent);
+                            SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("login_email_id", enteredEmail);
+                            editor.putString("usertype", usertype);
+                            editor.putInt("userid", userid);
+                            editor.apply();
+
+                            if ("learner".equals(usertype.toLowerCase())) {
+                                Intent intent = new Intent(MainActivity.this, HomePage.class);
+                                startActivity(intent);
+                                // Handle learner specific actions
+                            } else if ("instructor".equals(usertype.toLowerCase())) {
+                                // Handle instructor specific actions
+                                Intent intent = new Intent(MainActivity.this, InstructorHomePage.class);
+                                startActivity(intent);
+                            }
+
+//                            Intent intent = new Intent(MainActivity.this, HomePage.class);
+//                            startActivity(intent);
                             finish(); // Close the login activity
                         });
                     } else {

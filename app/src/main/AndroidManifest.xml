@@ -19,6 +19,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".EnrollmentDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectedCourseView" />
+        </activity>
+        <activity
             android:name=".TestDBActivity"
             android:exported="false" />
         <activity
