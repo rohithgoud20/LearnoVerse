@@ -40,68 +40,35 @@
 
     </LinearLayout>
 
-
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:padding="16dp">
-        <EditText
-            android:id="@+id/searchbar"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black"
-            android:hint="Search"
-            android:padding="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:visibility="gone"
-            />
-
-        <ImageView
-            android:id="@+id/butsearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:src="@drawable/search"
-            android:layout_toEndOf="@id/searchbar"
-            />
-
-
-
-</RelativeLayout>
-
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:text="Choose Subjects"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp" />
     <!-- Choose Subjects Section -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_height="200dp"
+        android:layout_margin="4dp"
         app:cardElevation="4dp"
         app:cardCornerRadius="8dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="12dp"
             android:background="@color/white">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:text="Choose Subjects"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="16dp" />
+
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:layout_marginTop="30dp">
+                android:layout_margin="4dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/imageRecyclerView"
@@ -117,53 +84,139 @@
 
     <!-- Add Video Recommendations and Bottom Buttons sections here -->
 
-
-
-<androidx.cardview.widget.CardView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:text="Video Recommendations"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="3dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
         android:layout_below="@+id/VedioView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/white"
         app:cardElevation="4dp"
         app:cardCornerRadius="8dp"
-        android:layout_margin="16dp">
+        android:layout_margin="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/light_gray">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="Video Recommendations"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="16dp" />
-
-        <HorizontalScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/videoRecyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal" />
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@color/light_gray">
 
 
-        </HorizontalScrollView>
-    </LinearLayout>
+
+                <!-- First Video -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Photography"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:text="Photography Basics in 10 MINUTES"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <ImageView
+                        android:id="@+id/video1"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/photocourse"
+                        android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <!-- Second Video (similar structure) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Coding"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:text="you need to learn Python RIGHT NOW!!"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <ImageView
+                        android:id="@+id/video2"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:src="@drawable/python"
+                        android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <!-- Third Video (similar structure) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Maths"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:text="How to Get Better at Math"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <ImageView
+                        android:id="@+id/video3"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:src="@drawable/coursemaths"
+                        android:scaleType="centerCrop" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,14 +255,6 @@
                 android:layout_margin="8dp"/>
 
             <ImageView
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/chat"
-                android:layout_weight="1"
-                android:layout_margin="8dp"/>
-
-            <ImageView
                 android:id="@+id/progress_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -218,8 +263,8 @@
                 android:layout_margin="8dp"/>
 
         </LinearLayout>
-
     </RelativeLayout>
+
 
 </LinearLayout>
 

@@ -74,10 +74,10 @@
 
     <!-- Right side: Display the price -->
     <TextView
+        android:id="@+id/priceTextView"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Price: $XXXX"
         android:textStyle="bold"/>
 </LinearLayout>
     </androidx.cardview.widget.CardView>

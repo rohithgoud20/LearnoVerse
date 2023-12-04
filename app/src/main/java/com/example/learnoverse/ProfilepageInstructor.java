@@ -30,8 +30,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class profilepage extends AppCompatActivity {
+public class ProfilepageInstructor extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 1;
     private static final int REQUEST_GALLERY = 2;
@@ -40,22 +41,23 @@ public class profilepage extends AppCompatActivity {
     private TextView profileName;
     private EditText dobText;
     private EditText mobile;
-    private EditText country;
+    private EditText gender;
     private EditText qualification;
-    private EditText interests;
-    private EditText languages;
-    private ImageView editDob, editMobile, editCountry, editQualification, editInterests, editLanguages;
+    private EditText expertise;
+    private EditText experience, availb;
+    private ImageView editDob, editMobile, editGender, editQualification, editExpertise, editExperience, editavailability;
     private Button saveButton;
     private SharedPreferences preferences;
     public static final String DATABASE_NAME = "learnoverse";
     public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
-    public static final String username= "admin";
+    public static final String username = "admin";
     public static final String password = "learnoverse";
-    public static final String TABLE_NAME = "learnerprofilestbs";
+    public static final String TABLE_NAME = "instructorprofiles";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profilepage);
+        setContentView(R.layout.activity_profilepage_instructor);
         SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
         String emailId = preferences.getString("login_email_id", "");
 
@@ -64,120 +66,100 @@ public class profilepage extends AppCompatActivity {
         profileName = findViewById(R.id.profileName);
         dobText = findViewById(R.id.dobText);
         mobile = findViewById(R.id.mobile);
-        country = findViewById(R.id.country);
+        gender = findViewById(R.id.gender);
+        availb = findViewById(R.id.availability);
         qualification = findViewById(R.id.qualification);
-        interests = findViewById(R.id.interests);
-        languages = findViewById(R.id.languages);
-        profileImage = findViewById(R.id.profileImage);
+        expertise = findViewById(R.id.expertise);
+        experience = findViewById(R.id.exprience);
         editDob = findViewById(R.id.editDob);
         editMobile = findViewById(R.id.editmobile);
-        editCountry = findViewById(R.id.editCountry);
+        editGender = findViewById(R.id.editgender);
         editQualification = findViewById(R.id.editQualification);
-        editInterests = findViewById(R.id.editInterests);
-        editLanguages = findViewById(R.id.editLanguages);
-
-
+        editExpertise = findViewById(R.id.editExpertise);
+        editExperience = findViewById(R.id.editexprience);
+        editavailability = findViewById(R.id.editavail);
         saveButton = findViewById(R.id.saveButton);
 
-
         try {
-            filldata();
+            fillData();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        editDob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Date of Birth
-                Log.d("ImageViewClick", "Edit Date of Birth ImageView clicked.");
-//                setEditTextsEditable(true);
-
-                dobText.requestFocus();
-            }
+        // Set Click Listeners
+        editDob.setOnClickListener(v -> {
+            Log.d("ImageViewClick", "Edit Date of Birth ImageView clicked.");
+            dobText.requestFocus();
         });
 
-        editMobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Mobile Number
-                setEditTextsEditable(true);
-                mobile.requestFocus();
-            }
+        editMobile.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            mobile.requestFocus();
         });
 
-        editCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Country
-                setEditTextsEditable(true);
-                country.requestFocus();
-            }
+        editGender.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            gender.requestFocus();
         });
 
-        editQualification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Highest Qualification
-                setEditTextsEditable(true);
-                qualification.requestFocus();
-            }
+        editQualification.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            qualification.requestFocus();
         });
 
-        editInterests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Interests
-                setEditTextsEditable(true);
-                interests.requestFocus();
-            }
+        editExpertise.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            expertise.requestFocus();
         });
 
-        editLanguages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Enable editing for Languages Known
-                setEditTextsEditable(true);
-                languages.requestFocus();
-            }
+        editExperience.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            experience.requestFocus();
+        });
+        editavailability.setOnClickListener(v -> {
+            setEditTextsEditable(true);
+            availb.requestFocus();
         });
 
         // Set an OnClickListener for the "Save" button
-        // Set an OnClickListener for the "Save" button
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Retrieve values from UI components
-                String firstName = profileName.getText().toString();
-                String dob = dobText.getText().toString();
-                String mobileNumber = mobile.getText().toString();
-                String countryValue = country.getText().toString();
-                String qualificationValue = qualification.getText().toString();
-                String interestsValue = interests.getText().toString();
-                String languagesValue = languages.getText().toString();
-                Drawable drawable = profileImage.getDrawable();
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                byte[] profilePicture = convertBitmapToByteArray(bitmap);
+        saveButton.setOnClickListener(v -> {
+            // Retrieve values from UI components
+            String firstName = profileName.getText().toString();
+            String dob = dobText.getText().toString();
+            String mobileNumber = mobile.getText().toString();
+            String genderValue = gender.getText().toString();
+            String qualificationValue = qualification.getText().toString();
+            String expertiseValue = expertise.getText().toString();
+            String experienceValue = experience.getText().toString();
+            String availvalue = availb.getText().toString();
+            Drawable drawable = profileImage.getDrawable();
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            byte[] profilePicture = convertBitmapToByteArray(bitmap);
+
+            // Validate input before saving
+            if (validateInput(firstName, dob, mobileNumber, genderValue, qualificationValue, expertiseValue, experienceValue, availvalue)) {
                 // Call saveProfile method
-                saveProfile(emailId, firstName, "last_name_placeholder", dob, languagesValue, countryValue, "gender_placeholder", mobileNumber, qualificationValue, interestsValue,profilePicture);
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, genderValue, mobileNumber,
+                        qualificationValue, expertiseValue, experienceValue, availvalue, profilePicture);
                 Toast.makeText(getApplicationContext(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    public void filldata() throws SQLException {
+    public void fillData() throws SQLException {
         new Thread(() -> {
+            StringBuilder records = new StringBuilder();
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection(url, username, password);
+                Statement statement = connection.createStatement();
 
                 // Fetch data based on login_email_id
                 SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
                 String emailId = preferences.getString("login_email_id", "");
 
                 // Use a PreparedStatement to prevent SQL injection
-                String query = "SELECT * FROM learnerprofilestbs WHERE email = ?";
+                String query = "SELECT * FROM instructorprofiles WHERE email = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, emailId);
 
@@ -188,33 +170,24 @@ public class profilepage extends AppCompatActivity {
                         String profileN = rs.getString("first_name");
                         String dob = rs.getString("date_of_birth");
                         String mobileNumber = rs.getString("phone_number");
-                        String coun = rs.getString("country");
                         String qualifi = rs.getString("highest_qualification");
-                        String ints = rs.getString("interests");
-                        String lang = rs.getString("languages");
+                        String exp = rs.getString("experience");
+                        String gen = rs.getString("gender");
+                        String expert = rs.getString("expertise");
+                        String ab = rs.getString("availability");
                         byte[] profilePictureData = rs.getBytes("profile_image");
-
-                        Log.d("ProfileData", "ProfileName: " + profileN);
-                        Log.d("ProfileData", "DOB: " + dob);
-                        Log.d("ProfileData", "Mobile: " + mobileNumber);
-                        Log.d("ProfileData", "Country: " + coun);
-                        Log.d("ProfileData", "Qualification: " + qualifi);
-                        Log.d("ProfileData", "Interests: " + ints);
-                        Log.d("ProfileData", "Languages: " + lang);
-
                         if (profilePictureData != null) {
                             Log.d("ProfileImageDataLength", String.valueOf(profilePictureData.length));
-                            // Update UI on the main thread
                             runOnUiThread(() -> {
                                 // Set EditText fields with fetched data
                                 profileName.setText(profileN);
                                 dobText.setText(dob);
                                 mobile.setText(mobileNumber);
-                                country.setText(coun);
                                 qualification.setText(qualifi);
-                                interests.setText(ints);
-                                languages.setText(lang);
-
+                                expertise.setText(expert);
+                                experience.setText(exp);
+                                gender.setText(gen);
+                                availb.setText(ab);
                                 try {
                                     // Check if the profilePictureData array is not null and has a length greater than 0
                                     if (profilePictureData.length > 0) {
@@ -235,19 +208,18 @@ public class profilepage extends AppCompatActivity {
                                 profileName.setText(profileN);
                                 dobText.setText(dob);
                                 mobile.setText(mobileNumber);
-                                country.setText(coun);
                                 qualification.setText(qualifi);
-                                interests.setText(ints);
-                                languages.setText(lang);
-
+                                expertise.setText(expert);
+                                experience.setText(exp);
+                                gender.setText(gen);
+                                availb.setText(ab);
                                 profileImage.setImageResource(R.drawable.avtar);
+                                // Print debug information if profilePictureData is null
                                 Log.e("ProfileImageDataError", "profilePictureData is null");
                             });
                         }
-                    } else {
-                        // Print debug information if no data is fetched
-                        Log.e("ProfileDataError", "No data found for email: " + emailId);
                     }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -260,28 +232,16 @@ public class profilepage extends AppCompatActivity {
     }
 
     private void setEditTextsEditable(boolean editable) {
-
         dobText.setFocusable(editable);
         mobile.setFocusable(editable);
-        country.setFocusable(editable);
+        gender.setFocusable(editable);
         qualification.setFocusable(editable);
-        interests.setFocusable(editable);
-        languages.setFocusable(editable);
+        expertise.setFocusable(editable);
+        experience.setFocusable(editable);
     }
 
-    private void loadUserProfileData() {
-        // Load user profile data from SharedPreferences
-        preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-        dobText.setText(preferences.getString("dob", ""));
-        mobile.setText(preferences.getString("mobile", ""));
-        country.setText(preferences.getString("country", ""));
-        qualification.setText(preferences.getString("qualification", ""));
-        interests.setText(preferences.getString("interests", ""));
-        languages.setText(preferences.getString("languages", ""));
-    }
-
-    public static void saveProfile(String emailid, String firstName, String lastName, String dob, String languages, String country,
-                                   String gender, String phoneNumber, String highestQualification, String interests,byte[] profilePicture) {
+    private void saveProfile(String emailid, String firstName, String lastName, String dob, String gender,
+                             String phoneNumber, String highestQualification, String expertise, String experience, String ava, byte[] profilePicture) {
         new Thread(() -> {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -292,12 +252,12 @@ public class profilepage extends AppCompatActivity {
                         "first_name = ?, " +
                         "last_name = ?, " +
                         "date_of_birth = ?, " +
-                        "languages = ?, " +
-                        "country = ?, " +
                         "gender = ?, " +
                         "phone_number = ?, " +
                         "highest_qualification = ?, " +
-                        "interests = ? ," +
+                        "expertise = ?, " +
+                        "experience = ?, " +
+                        "availability = ?," +
                         "profile_image = ? " +
                         "WHERE email = ?";
 
@@ -306,12 +266,12 @@ public class profilepage extends AppCompatActivity {
                     preparedStatement.setString(1, firstName);
                     preparedStatement.setString(2, lastName);
                     preparedStatement.setString(3, dob);
-                    preparedStatement.setString(4, languages);
-                    preparedStatement.setString(5, country);
-                    preparedStatement.setString(6, gender);
-                    preparedStatement.setString(7, phoneNumber);
-                    preparedStatement.setString(8, highestQualification);
-                    preparedStatement.setString(9, interests);
+                    preparedStatement.setString(4, gender);
+                    preparedStatement.setString(5, phoneNumber);
+                    preparedStatement.setString(6, highestQualification);
+                    preparedStatement.setString(7, expertise);
+                    preparedStatement.setString(8, experience);
+                    preparedStatement.setString(9, ava);
                     preparedStatement.setBytes(10, profilePicture);
                     preparedStatement.setString(11, emailid);
 
@@ -328,10 +288,7 @@ public class profilepage extends AppCompatActivity {
         }).start();
     }
 
-
     public void selectProfilePicture(View view) {
-        // Create a dialog or an Intent to allow the user to choose a profile picture.
-        // You can implement your own dialog or open the gallery/camera using an Intent.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose a Profile Picture")
                 .setItems(new CharSequence[]{"Gallery", "Camera"}, new DialogInterface.OnClickListener() {
@@ -352,13 +309,17 @@ public class profilepage extends AppCompatActivity {
                 .show();
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String firstName = profileName.getText().toString();
         String dob = dobText.getText().toString();
+        String mobileNumber = mobile.getText().toString();
+        String genderValue = gender.getText().toString();
+        String qualificationValue = qualification.getText().toString();
+        String expertiseValue = expertise.getText().toString();
+        String experienceValue = experience.getText().toString();
+        String availvalue = availb.getText().toString();
         SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
         String emailId = preferences.getString("login_email_id", "");
 
@@ -372,9 +333,8 @@ public class profilepage extends AppCompatActivity {
                 byte[] profilePicture = convertUriToByteArray(selectedImage);
 
                 // Call saveProfile method to update the database
-                saveProfile(emailId, firstName, "last_name_placeholder", dob, languages.getText().toString(),
-                        country.getText().toString(), "gender_placeholder", mobile.getText().toString(),
-                        qualification.getText().toString(), interests.getText().toString(), profilePicture);
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, genderValue,
+                        mobileNumber, qualificationValue, expertiseValue, experienceValue, availvalue, profilePicture);
             } else if (requestCode == REQUEST_CAMERA) {
                 // Handle the camera capture and set the image to the ImageView.
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -384,13 +344,11 @@ public class profilepage extends AppCompatActivity {
                 byte[] profilePicture = convertBitmapToByteArray(photo);
 
                 // Call saveProfile method to update the database
-                saveProfile(emailId, firstName, "last_name_placeholder", dob, languages.getText().toString(),
-                        country.getText().toString(), "gender_placeholder", mobile.getText().toString(),
-                        qualification.getText().toString(), interests.getText().toString(), profilePicture);
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, genderValue,
+                        mobileNumber, qualificationValue, expertiseValue, experienceValue, availvalue, profilePicture);
             }
         }
     }
-
 
     private byte[] convertUriToByteArray(Uri uri) {
         try {
@@ -414,4 +372,27 @@ public class profilepage extends AppCompatActivity {
         return stream.toByteArray();
     }
 
+    private boolean validateInput(String firstName, String dob, String mobileNumber, String gender,
+                                  String qualification, String expertise, String experience, String avail) {
+        if (firstName.isEmpty() || dob.isEmpty() || gender.isEmpty() || qualification.isEmpty() ||
+                expertise.isEmpty() || experience.isEmpty() || avail.isEmpty()) {
+            showToast("All fields must be filled");
+            return false;
+        }
+
+        if (!isNumeric(mobileNumber)) {
+            showToast("Mobile number should only contain numeric characters");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }

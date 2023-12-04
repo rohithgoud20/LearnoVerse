@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,35 +36,51 @@ public class HomePage extends AppCompatActivity {
     private boolean hasNotifications = true;
     private ImageView buttonSearch;
     private static final int PICK_IMAGE = 100;
-    private ImageView buttonProfile;
+    private ImageView buttonProfile,butmat;
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
     private ImageView calenbut;
-//    private List<Integer> images = Arrays.asList(
-//            R.drawable.cooking, R.drawable.photography, R.drawable.physics, R.drawable.biology,
-//            R.drawable.maths,R.drawable.coding);
     List<ImageItem> images = new ArrayList<>();
 
     private RecyclerView videoRecyclerView;
     private List<VideoItem> videoItems;
     private WebView displayVideo;
-
+    public static final String DATABASE_NAME = "learnoverse";
+    public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
+    public static final String username = "admin", password = "learnoverse";
+    public static final String TABLE_NAME = "learnerprofilestbs";
+    public String firstname="";
+    public ImageView vid1,vid2,vid3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         ImageView profileIcon = findViewById(R.id.butprofile);
-        TextView welcomemsg= findViewById(R.id.welcometextView);
+        TextView welcomemsg = findViewById(R.id.welcometextView);
+
+        vid1=findViewById(R.id.video1);
+        vid2=findViewById(R.id.video2);
+        vid3=findViewById(R.id.video3);
+
         SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-        String name = preferences.getString("name", null);
-       // String firstname = getFirstName(username);
-        welcomemsg.setText("Welcome "+ name);
-        editTextSearch =findViewById(R.id.searchbar);
-        buttonSearch = findViewById(R.id.butsearch);
+        String emailId = preferences.getString("login_email_id", "");
+        try {
+            fetchname(new OnFetchNameCallback() {
+                @Override
+                public void onNameFetched(String name) {
+                    // This method is called when the name is fetched
+                    firstname = name;
+                    welcomemsg.setText("Welcome " + firstname);
+                }
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         buttonProfile = findViewById(R.id.butprofile);
         calenbut=findViewById(R.id.button2);
-
+        butmat=findViewById(R.id.button1);
         ImageView buttonProgress = findViewById(R.id.progress_button);
         recyclerView = findViewById(R.id.imageRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -90,18 +112,25 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
-        videoRecyclerView = findViewById(R.id.videoRecyclerView);
-        LinearLayoutManager layoutMan = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        videoRecyclerView.setLayoutManager(layoutMan);
-        videoItems = new ArrayList<>();
-        videoItems.add(new VideoItem("Photography", "Description 1", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
-        videoItems.add(new VideoItem("Cooking", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
-        videoItems.add(new VideoItem("Maths", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
-        videoItems.add(new VideoItem("Coding", "Description 2", "https://youtu.be/V7z7BAZdt2M?si=eB8XwdOe2l94sWLX"));
 
-        VideoAdapter videoAdapter = new VideoAdapter(videoItems,this);
-        videoRecyclerView.setAdapter(videoAdapter);
-
+        vid1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVideo("https://www.youtube.com/watch?v=V7z7BAZdt2M");
+            }
+        });
+        vid2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVideo("https://www.youtube.com/watch?v=mRMmlo_Uqcs");
+            }
+        });
+        vid3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVideo("https://www.youtube.com/watch?v=HPsazrVSjl8");
+            }
+        });
 
         ImageView notificationDot = findViewById(R.id.butnotification); // Change to your actual ID
 
@@ -122,13 +151,6 @@ public class HomePage extends AppCompatActivity {
 
 
 
-
-        editTextSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCourseMenu();
-            }
-        });
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,8 +173,13 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
+        butmat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, StudentMaterials.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -160,6 +187,61 @@ public class HomePage extends AppCompatActivity {
 
     }
 
+    private void openVideo(String yourVideo) {
+
+
+        // Open the YouTube app or a web browser to play the video
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(yourVideo));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("force_fullscreen", true);
+        intent.setPackage("com.google.android.youtube");
+
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            // If YouTube app is not installed, open the video in a web browser
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(yourVideo));
+            startActivity(browserIntent);
+        }
+    }
+
+
+
+    public void fetchname(OnFetchNameCallback callback) throws SQLException {
+        new Thread(() -> {
+            // Do your work
+
+            String fetchedName = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection(url, username, password);
+                Statement statement = connection.createStatement();
+
+                SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                String emailId = preferences.getString("login_email_id", "");
+
+                ResultSet rs = statement.executeQuery("SELECT first_name FROM learnerprofilestbs WHERE email='" + emailId + "'");
+
+                if (rs.next()) {
+                    fetchedName = rs.getString("first_name");
+                } else {
+                    Log.d("fetchname", "No records found for email ID: " + emailId);
+                }
+
+                connection.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            callback.onNameFetched(fetchedName);
+        }).start();
+    }
+
+    // Define a callback interface
+    public interface OnFetchNameCallback {
+        void onNameFetched(String name);
+    }
     public String getFirstName(String username) {
 
         String firstname =null;
@@ -169,23 +251,6 @@ public class HomePage extends AppCompatActivity {
 
         String selection =  "username = ?";
         String[] selectionArgs = {username};
-
-//        Cursor cursor = db.query(
-//                "learner",
-//                projection,
-//                selection,
-//                selectionArgs,
-//                null,
-//                null,
-//                null
-//        );
-
-
-//        if (cursor != null && cursor.moveToFirst()) {
-//            int firstNameIndex = cursor.getColumnIndexOrThrow("first_name");
-//            firstname = cursor.getString(firstNameIndex);
-//            cursor.close();
-//        }
 
 
         return firstname;
@@ -237,14 +302,7 @@ public class HomePage extends AppCompatActivity {
         popupMenu.show();
 
 
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String query = editTextSearch.getText().toString().trim();
-                // Implement your search logic here
-                setupSearchBar();
-            }
-        });
+
 
     }
     private void showHelpDialog() {
@@ -301,23 +359,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void redirectToCourse(String course) {
-        // Implement the logic to redirect to the selected course activity
-//        Intent intent;
-//        switch (course) {
-//            case "Introduction to Programming":
-//                intent = new Intent(HomePage.this, IntroductionToProgrammingActivity.class);
-//                break;
-//            case "Web Development Basics":
-//                intent = new Intent(HomePage.this, WebDevelopmentBasicsActivity.class);
-//                break;
-//            // Add cases for other courses here
-//
-//            default:
-//                // If the selected course does not match any case, log an error message
-//                Log.e("REDIRECT_ERROR", "Course not found: " + course);
-//                return;
-//        }
-//        startActivity(intent);
+
     }
 
 

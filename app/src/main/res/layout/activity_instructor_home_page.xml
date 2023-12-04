@@ -7,20 +7,24 @@
     android:orientation="vertical"
     android:background="@color/white">
 
+    <!-- Top Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="@color/white">
+        android:background="@color/background_color">
+
         <TextView
             android:id="@+id/welcometextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:text="Welcome"
-            android:layout_gravity="left" />
+            android:layout_gravity="left"
+            android:textColor="@color/white"/>
+
         <ImageView
             android:id="@+id/butnotification"
             android:layout_width="wrap_content"
@@ -35,11 +39,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:src="@drawable/ic_profile"
+            android:clickable="true"
+            android:onClick="showPopupMenu"
             tools:layout_editor_absoluteX="116dp"
             tools:layout_editor_absoluteY="43dp" />
 
     </LinearLayout>
 
+    <!-- Card Rows -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,19 +69,18 @@
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="#EF9C16"
                 android:clickable="true"
                 android:id="@+id/courses"
                 android:foreground="?android:attr/selectableItemBackground">
 
-                <!-- Your Card Content for Offer Courses -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Courses"
                     android:textSize="20dp"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/card_background" />
 
             </androidx.cardview.widget.CardView>
 
@@ -86,12 +92,10 @@
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="#558B2F"
                 android:clickable="true"
-
                 android:foreground="?android:attr/selectableItemBackground">
 
-                <!-- Your Card Content for Upload Materials -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -116,176 +120,86 @@
 
             <!-- Schedule Card -->
             <androidx.cardview.widget.CardView
-
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="#AC1E5C"
                 android:clickable="true"
                 android:id="@+id/Schedule"
                 android:foreground="?android:attr/selectableItemBackground">
 
-                <!-- Your Card Content for Schedule -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Schedule"
                     android:textSize="20dp"
-                    android:textColor="@android:color/black" />
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Chats Card -->
-            <androidx.cardview.widget.CardView
-
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/blue"
-                android:clickable="true"
-                android:id="@+id/Chats"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <!-- Your Card Content for Chats -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Chats"
-                    android:textSize="20dp"
                     android:textColor="@android:color/white" />
 
             </androidx.cardview.widget.CardView>
 
+            <!-- Chats Card -->
+            <!-- Add your Chats Card here -->
+
         </LinearLayout>
 
+        <!-- Third Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
             android:layout_marginTop="15dp"
             android:padding="12dp"
             android:layout_below="@id/cardSchedule">
 
-            <!-- Schedule Card -->
+            <!-- Students Card -->
             <androidx.cardview.widget.CardView
-
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="#00838F"
                 android:clickable="true"
                 android:id="@+id/Students"
                 android:foreground="?android:attr/selectableItemBackground">
 
-                <!-- Your Card Content for Schedule -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:text="Registered Students"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Chats Card -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/Analysis"
+            <!-- Add your Chats Card here -->
+            <!-- <androidx.cardview.widget.CardView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="6dp"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/your_color"
                 android:clickable="true"
+                android:id="@+id/Chats"
                 android:foreground="?android:attr/selectableItemBackground">
 
-                <!-- Your Card Content for Chats -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Analysis"
                     android:textSize="20dp"
-                    android:textColor="@android:color/white" />
+                    android:text="Chats"
+                    android:textColor="@android:color/black" />
 
-            </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView> -->
 
         </LinearLayout>
 
     </RelativeLayout>
 
-
-
-
-
-
-
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/white">-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bottomButtons"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:padding="16dp">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/button1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/materials"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="8dp"/>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/button2"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/schedule"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="8dp"/>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/button3"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/home"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="8dp"/>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/button4"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/chat"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="8dp"/>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/progress_button"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/progress"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="8dp"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--    </RelativeLayout>-->
-
 </LinearLayout>
-

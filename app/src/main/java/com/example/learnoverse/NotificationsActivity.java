@@ -41,25 +41,25 @@ public class NotificationsActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
         String login_email_id = preferences.getString("login_email_id", "");
         fetchAndDisplayNotifications(login_email_id);
-        Button clearAllButton = findViewById(R.id.clearButton);
+//        Button clearAllButton = findViewById(R.id.clearButton);
 
         // Set an OnClickListener for the clear all button
-        clearAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Implement the logic to clear all notifications
-                clearAllNotifications();
-            }
-        });
+//        clearAllButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Implement the logic to clear all notifications
+//                clearAllNotifications();
+//            }
+//        });
     }
-    private void clearAllNotifications() {
-
-        Toast.makeText(this, "Notifications cleared", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(NotificationsActivity.this, HomePage.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
+//    private void clearAllNotifications() {
+//
+//        Toast.makeText(this, "Notifications cleared", Toast.LENGTH_SHORT).show();
+//
+//        Intent intent = new Intent(NotificationsActivity.this, HomePage.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//    }
     private void fetchAndDisplayNotifications(String email) {
         notificationList.clear();
 

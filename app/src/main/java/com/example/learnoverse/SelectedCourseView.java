@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,26 +31,50 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelectedCourseView extends AppCompatActivity  {
+    private static final int ENROLLMENT_REQUEST_CODE = 1;
     private int currentPage = 1;
     private static final int ITEMS_PER_PAGE = 7; // Adjust the number of items per page
     private int itemCounter = 0; // Declare itemCounter at the class level
     private RecyclerView mSessionRecyclerView;
     private SessionAdapter mSessionAdapter;
     private boolean isExpanded = false;
-
+    private Button enrollButton;
     public static final String DATABASE_NAME = "learnoverse";
     public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
     public static final String username = "admin", password = "learnoverse";
     public static final String TABLE_NAME = "CoursesOffered";
+    public interface RegistrationCallback {
+        void onRegistrationChecked(boolean isRegistered);
+    }
+    public void checkUserRegistration(int courseId, String userName, RegistrationCallback callback) {
+        new Thread(() -> {
+            boolean isRegistered = false;
+
+            try (Connection connection = DriverManager.getConnection(url, username, password);
+                 PreparedStatement statement = connection.prepareStatement(
+                         "SELECT * FROM RegisteredCourses WHERE selected_course = ? AND user_name = ?")) {
+
+                statement.setInt(1, courseId);
+                statement.setString(2, userName);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    isRegistered = resultSet.next();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            // Invoke the callback with the result
+            callback.onRegistrationChecked(isRegistered);
+        }).start();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_course_view);
 
-        // Get a reference to the TableLayout
-        //   TableLayout courseDetailsTable = findViewById(R.id.courseDetailsTable);
-
-        // Initialize the database helper
         Intent intent = getIntent();
         String course_name = intent.getStringExtra("course_name");
         AtomicInteger course_id = new AtomicInteger();
@@ -58,66 +83,73 @@ public class SelectedCourseView extends AppCompatActivity  {
         new Thread(() -> {
             try (Connection connection = DriverManager.getConnection(url, username, password);
                  PreparedStatement statement = connection.prepareStatement(
-                         "SELECT course_id, instructor_id, no_of_sessions, rating, course_description FROM CoursesOffered WHERE course_name = ?")) {
+                         "SELECT course_id, instructor_id, no_of_sessions, rating, course_description,price FROM CoursesOffered WHERE course_name = ?")) {
 
-                // Set the parameter using PreparedStatement to prevent SQL injection
                 statement.setString(1, course_name);
-                Log.d(TAG, "db query " + "SELECT course_id, instructor_id, no_of_sessions, rating FROM CoursesOffered WHERE course_name = " + course_name);
-                // Execute the query
+                Log.d(TAG, "db query " + "SELECT course_id,instructor_id,rating,course_description,price FROM CoursesOffered WHERE course_name = " + course_name);
+
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    List<View> cardViews = new ArrayList<>(); // Store card views here
+                    List<View> cardViews = new ArrayList<>();
 
                     while (resultSet.next()) {
                         int courseId = resultSet.getInt("course_id");
                         int instructor_id = resultSet.getInt("instructor_id");
                         String instructorName = fetchInstructorName(instructor_id);
-                        int noOfSessions = resultSet.getInt("no_of_sessions");
+                        int noOfSessions = resultSet.getInt("instructor_id");
                         float rating = resultSet.getFloat("rating");
                         String course_description = resultSet.getString("course_description");
+                        float price = resultSet.getFloat("price");
                         Log.d(TAG, "resultset " + courseId + instructorName);
-                        // Inflate the card layout
+
                         View cardView = LayoutInflater.from(this).inflate(R.layout.courses_cards_layout, null);
 
-                        // Find views within the card
                         TextView instructorNameTextView = cardView.findViewById(R.id.instructorNameTextView);
                         TextView ratingTextView = cardView.findViewById(R.id.ratingTextView);
                         TextView noOfSessionsTextView = cardView.findViewById(R.id.noOfSessionsTextView);
                         TextView descriptionTextView = cardView.findViewById(R.id.descriptionTextView);
 
-                        // Populate data into card views
                         instructorNameTextView.setText(instructorName);
                         ratingTextView.setText("Rating: " + String.valueOf(rating));
                         noOfSessionsTextView.setText("Sessions: " + String.valueOf(noOfSessions));
                         descriptionTextView.setText(course_description);
 
-                        // Add the card view to the list
                         cardViews.add(cardView);
 
-                        // Set up the Enroll button click listener for this card
-                        Button enrollButton = cardView.findViewById(R.id.buttonEnroll);
-                        enrollButton.setOnClickListener(v -> {
-                            // Extract course details from the clicked card view
-                            TextView instructorNameTextViewClicked = cardView.findViewById(R.id.instructorNameTextView);
-                            TextView noOfSessionsTextViewClicked = cardView.findViewById(R.id.noOfSessionsTextView);
+                         enrollButton = cardView.findViewById(R.id.buttonEnroll);
+                        SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                        String login_email_id = preferences.getString("login_email_id", "");
 
-                            String instructorNameClicked = instructorNameTextViewClicked.getText().toString();
-                            String noOfSessionsClicked = noOfSessionsTextViewClicked.getText().toString();
+                        checkUserRegistration(courseId, login_email_id, isRegistered -> {
+                            runOnUiThread(() -> {
+                                enrollButton.setEnabled(!isRegistered);
+                                if(isRegistered){
+                                    enrollButton.setText("Enrolled");
+                                }
 
-                            // Pass the details to the new activity
-                            Intent intent2 = new Intent(SelectedCourseView.this, EnrollmentDetailsActivity.class);
-                            intent2.putExtra("instructorName", instructorNameClicked);
-                            intent2.putExtra("noOfSessions", noOfSessionsClicked);
-                            intent2.putExtra("courseId", courseId); // Pass the courseId for fetching session details
-                            intent2.putExtra("rating", rating);
-                            intent2.putExtra("description", course_description);
-                            startActivity(intent2);
+
+                                enrollButton.setOnClickListener(v -> {
+                                    TextView instructorNameTextViewClicked = cardView.findViewById(R.id.instructorNameTextView);
+                                    TextView noOfSessionsTextViewClicked = cardView.findViewById(R.id.noOfSessionsTextView);
+
+                                    String instructorNameClicked = instructorNameTextViewClicked.getText().toString();
+                                    String noOfSessionsClicked = noOfSessionsTextViewClicked.getText().toString();
+
+                                    Intent intent2 = new Intent(SelectedCourseView.this, EnrollmentDetailsActivity.class);
+                                    intent2.putExtra("instructorName", instructorNameClicked);
+                                    intent2.putExtra("noOfSessions", noOfSessionsClicked);
+                                    intent2.putExtra("courseId", courseId);
+                                    intent2.putExtra("rating", rating);
+                                    intent2.putExtra("description", course_description);
+                                    intent2.putExtra("price", price);
+                                    startActivity(intent2);
+                                });
+                            });
                         });
                     }
 
                     runOnUiThread(() -> {
-                        // Add card views to the cards container
                         LinearLayout cardsContainer = findViewById(R.id.cardsContainer);
-                        cardsContainer.removeAllViews(); // Clear existing views
+                        cardsContainer.removeAllViews();
 
                         for (View cardView : cardViews) {
                             cardsContainer.addView(cardView);
@@ -126,155 +158,41 @@ public class SelectedCourseView extends AppCompatActivity  {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }).start();
-
-
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private int storeAsGoal(int courseId) {
+        if (requestCode == ENROLLMENT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // Enrollment was successful, update UI or disable the button
 
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] projection = {
-                "no_of_sessions",
-                "instructor_name",
-                "course_name"
-        };
+                int enrolledCourseId = data.getIntExtra("enrolledCourseId", -1);
+                String login_email_id = data.getStringExtra("login_email_id");
 
-        String selection = "course_id = ?";
-        String[] selectionArgs = { String.valueOf(courseId) };
-
-        Cursor cursor = db.query(
-                "CoursesOffered",
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        while (cursor.moveToNext()) {
-
-            int no_of_sessions = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("no_of_sessions")));
-            String instructor_name = cursor.getString(cursor.getColumnIndexOrThrow("instructor_name"));
-            String course_name = cursor.getString(cursor.getColumnIndexOrThrow("course_name"));
-
-            SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-            String username = preferences.getString("username", null);
-            String user_name = null;
-            if (username != null) {
-                // You have the username, and you can use it in your app
-                // For example, set it in a TextView
-                Log.i(TAG,"username"+username);
-                ContentValues values = new ContentValues();
-                values.put("user_name", username); // Set the user's ID
-                values.put("course_name", course_name);
-                values.put("no_of_sessions", no_of_sessions);
-                values.put("instructor_name", instructor_name);
-                values.put("status", "new");
-
-                long goalId = db.insert("Goal", null, values);
-                if (goalId != -1) {
-                    Log.i(TAG,"inserted to goal db");
-                    Toast.makeText(this,"Added as Goal",Toast.LENGTH_SHORT).show();
-                    return 1;
-
-                } else {
-                    // There was an error saving the goal
-                    // Handle the error as needed
-                    return 0;
-                }
-            } else {
-                return 0;
-                // Username is not available (e.g., user is not logged in)
+                // Check the enrollment status and disable the enroll button if needed
+                //checkUserRegistrationStatus(enrolledCourseId,login_email_id, enrollButton);
             }
-
         }
-
-
-        db.close();
-        return 1;
     }
 
-    // Method to update status to "in progress" in the goal database
-    private int updateStatusToInProgress(int courseId) {
-        // Implement your database operations to update the status to "in progress"
-        // You can use your MyDatabaseHelper for this purpose
-        // Example:
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        String[] projection = {
-                "no_of_sessions",
-                "instructor_name",
-                "course_name"
-        };
-
-        String selection = "course_id = ?";
-        String[] selectionArgs = {String.valueOf(courseId)};
-
-        Cursor cursor = db.query(
-                "CoursesOffered",
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        while (cursor.moveToNext()) {
-
-            int no_of_sessions = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("no_of_sessions")));
-            String instructor_name = cursor.getString(cursor.getColumnIndexOrThrow("instructor_name"));
-            String course_name = cursor.getString(cursor.getColumnIndexOrThrow("course_name"));
-
-            SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-            String username = preferences.getString("username", null);
-            String user_name = null;
-            if (username != null) {
-                Cursor cursor2 = db.query(
-                        "Goal",
-                        null, // Columns (null means all columns)
-                        "course_name = ? AND instructor_name = ? AND no_of_sessions = ?",
-                        new String[]{course_name, instructor_name, String.valueOf(no_of_sessions)},
-                        null, // Group by
-                        null, // Having
-                        null  // Order by
-                );
-
-                if (cursor.getCount() > 0) {
-                    // If a record with the same details exists, update its status
-                    values.put("status", "In Progress");
-                    db.update("Goal", values, "course_name = ? AND instructor_name = ? AND no_of_sessions = ?",
-                            new String[]{course_name, instructor_name, String.valueOf((no_of_sessions))});
-                    Toast.makeText(this,"Enrolled for the course",Toast.LENGTH_SHORT).show();
-                return 1;
-                } else {
-                    // If no matching record exists, create a new record
-                    values.put("user_name", username); // Set the user_name accordingly
-                    values.put("course_name", course_name);
-                    values.put("instructor_name", instructor_name);// Set the goal text accordingly
-                    values.put("no_of_sessions", no_of_sessions);
-                    values.put("status", "In Progress");
-
-                    db.insert("Goal", null, values);
-                    return  1;
-                }
+    private void checkUserRegistrationStatus(int courseId,String login_email_id, Button enrollButton) {
+        checkUserRegistration(courseId, login_email_id, isRegistered -> {
+            if (isRegistered) {
+                disableEnrollButton(enrollButton);
             }
-
-
-            cursor.close();
-            mSessionAdapter.notifyDataSetChanged();
-
-            db.close();
-
-        } return 1;
-
+        });
     }
+
+    private void disableEnrollButton(Button enrollButton) {
+        enrollButton.setEnabled(false);
+    }
+
+
 
     // Method to fetch instructor name based on course ID
     private String fetchInstructorName(int instructor_id) {
@@ -302,105 +220,5 @@ public class SelectedCourseView extends AppCompatActivity  {
     }
 
     // Method to fetch total sessions based on course ID
-    private int fetchTotalSessions(int courseId) {
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projection = {
-                "no_of_sessions"
-        };
-
-        String selection = "course_id = ?";
-        String[] selectionArgs = { String.valueOf(courseId) };
-
-        Cursor cursor = db.query(
-                "CoursesOffered",
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        int totalSessions = 0;
-        if (cursor.moveToFirst()) {
-            totalSessions = cursor.getInt(cursor.getColumnIndexOrThrow("no_of_sessions"));
-        }
-
-        cursor.close();
-        db.close();
-
-        return totalSessions;
-    }
-
-    // Method to fetch session details based on course ID
-    private List<courseSessions> fetchSessionDetails(int courseId) {
-        List<courseSessions> sessions = new ArrayList<>();
-
-        // Initialize your database helper and open the database
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Define the columns you want to retrieve from the SessionForCourse table
-        String[] projection = {
-                "session_name",
-                "start_date",
-                "start_time"
-        };
-
-        // Define the selection criteria (WHERE clause)
-        String selection = "course_id = ?";
-        String[] selectionArgs = { String.valueOf(courseId) };
-
-        // Execute the query
-        Cursor cursor = db.query(
-                "SessionForCourse", // Table name
-                projection,        // Columns to retrieve
-                selection,         // WHERE clause
-                selectionArgs,     // Selection arguments
-                null,              // GROUP BY clause (if any)
-                null,              // HAVING clause (if any)
-                null               // ORDER BY clause (if any)
-        );
-
-        // Iterate through the cursor and add session details to the list
-        while (cursor.moveToNext()) {
-
-            String sessionName = cursor.getString(cursor.getColumnIndexOrThrow("session_name"));
-            String startDate = cursor.getString(cursor.getColumnIndexOrThrow("start_date"));
-            String startTime = cursor.getString(cursor.getColumnIndexOrThrow("start_time"));
-
-            // Create a Session object and add it to the list
-            courseSessions session = new courseSessions(sessionName, startDate, startTime);
-            sessions.add(session);
-        }
-
-        // Close the cursor and database
-        cursor.close();
-        db.close();
-
-        return sessions;
-    }
-
-    // Method to display session details in a dialog
-
-
-
-    public void onPreviousPageClick(View view) {
-        if (currentPage > 1) {
-            currentPage--;
-            recreate(); // Reload the activity to show the previous page
-        }
-    }
-
-    public void onNextPageClick(View view) {
-        // Check if there are more items to display
-        if (itemCounter >= currentPage * ITEMS_PER_PAGE) {
-            currentPage++;
-            recreate(); // Reload the activity to show the next page
-        }
-    }
-
 
 }

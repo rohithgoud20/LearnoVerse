@@ -3,6 +3,7 @@ package com.example.learnoverse;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,21 +79,33 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
         startTimeTextView = findViewById(R.id.startTimeTextView);
         userCommentEditText = findViewById(R.id.userCommentEditText);
         makePaymentButton = findViewById(R.id.makePaymentButton);
+        TextView priceTextView = findViewById(R.id.priceTextView);
         EditText learner_comment = findViewById(R.id.userCommentEditText);
 
         // Get details passed from the previous activity
         String instructorName = getIntent().getStringExtra("instructorName");
         String noOfSessions = getIntent().getStringExtra("noOfSessions");
         Float rating = getIntent().getFloatExtra("rating", 0);
+        Float price = getIntent().getFloatExtra("price", 0);
+
+
         String description = getIntent().getStringExtra("description");
 
         instuctorNameTextView.setText(instructorName);
         noOfSessionsTextView.setText(noOfSessions + " sessions");
         ratingTextView.setRating(rating);
         desTextView.setText(description);
-        int courseId = getIntent().getIntExtra("courseId", -1);
+        priceTextView.setText("Price: $"+ String.valueOf(price));
+        SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat("price", price);
 
-        // Fetch the initial session details (start date and time) for the first session
+
+        int courseId = getIntent().getIntExtra("courseId", -1);
+        editor.putInt("courseId",courseId);
+        editor.apply();
+
+                    // Fetch the initial session details (start date and time) for the first session
         new Thread(() -> {
             try (Connection connection = DriverManager.getConnection(url, username, password);
                  PreparedStatement sessionStatement = connection.prepareStatement(
@@ -145,6 +158,7 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
                                 // Do nothing
                             }
                         });
+
                     }
                 }
             } catch (SQLException e) {
@@ -159,96 +173,13 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
             PaymentFlow();
             // check if payment is done
             // Insert details into the RegisteredCourses table
-            SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-            String login_email_id = preferences.getString("login_email_id", "");
-            String name = preferences.getString("name", "");
-
+           //SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+           editor.putString("learner_comment",learner_comment.getText().toString());
+           editor.apply();
             // If the key "username" is not found, the default value (empty string "") will be returned.
             // Now you can use the 'username' variable as needed.
             // Assuming 'courseId' and 'userName' are available
 
-            checkUserRegistration(courseId, login_email_id, isRegistered -> {
-                // Use the result (isRegistered) here
-                runOnUiThread(() -> {
-                    if (isRegistered) {
-                        Toast.makeText(EnrollmentDetailsActivity.this, "You have already enrolled for this course", Toast.LENGTH_SHORT).show();
-                    } else {
-                        new Thread(() -> {
-                            try (Connection connection = DriverManager.getConnection(url, username, password);
-                                 PreparedStatement insertStatement = connection.prepareStatement(
-                                         "INSERT INTO RegisteredCourses (selected_course, user_name, status, learner_comment, ispayment_done) VALUES (?, ?, ?, ?,?)")) {
-
-                                // Set the parameters using PreparedStatement to prevent SQL injection
-                                insertStatement.setInt(1, courseId); // Assuming courseId is the selected_course
-                                insertStatement.setString(2, login_email_id);
-                                insertStatement.setString(3, "Enrolled");
-                                insertStatement.setString(4, learner_comment.getText().toString()); // Assuming "Enrolled" is the initial status
-                                insertStatement.setBoolean(5, true); // Assuming payment is done
-
-                                // Execute the insert statement
-                                int rowsInserted = insertStatement.executeUpdate();
-
-                                if (rowsInserted > 0) {
-                                    String instructor_email = null;
-                                    String  course_name = null;
-
-                                    try (Statement statement = connection.createStatement()) {
-                                        String query = "SELECT * FROM CoursesOffered WHERE course_id='" + courseId + "'";
-                                        try (ResultSet resultSet = statement.executeQuery(query)) {
-                                            if (resultSet.next()) {
-                                                Integer instructor_id = resultSet.getInt("instructor_id");
-                                                course_name = resultSet.getString("course_name");
-                                                String query2 = "SELECT * FROM signup WHERE id='" + instructor_id + "'";
-                                                try (ResultSet resultSet2 = statement.executeQuery(query2)) {
-                                                    if (resultSet2.next()) {
-                                                        instructor_email = resultSet2.getString("emailid");
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    // ... rest of your code
-
-                                    String notificationText = name+" Registered for your Course "+course_name;
-                                    NotificationUtils.insertNewNotification(instructor_email, notificationText, new NotificationUtils.InsertNotificationCallback() {
-                                        @Override
-                                        public void onNotificationInserted(boolean success) {
-                                            if (success) {
-                                                Log.d(TAG, "NOTIFICATION INSERTED");
-                                                // Handle successful insertion
-                                            } else {
-                                                Log.d(TAG, "NOTIFICATION FAILED");
-                                                // Handle insertion failure
-                                            }
-                                        }
-                                    });
-
-                                    // Insert successful, you can display a success message or navigate to another screen
-                                    runOnUiThread(() -> {
-                                        // TODO: Implement logic for success, e.g., display a success message or navigate to another screen
-                                        Toast.makeText(EnrollmentDetailsActivity.this, "Enrolled for the course successfully", Toast.LENGTH_SHORT).show();
-
-                                    });
-                                } else {
-                                    // Insert failed, you can display an error message
-                                    runOnUiThread(() -> {
-                                        Toast.makeText(EnrollmentDetailsActivity.this, "Failed to enroll", Toast.LENGTH_SHORT).show();
-
-                                        // TODO: Implement logic for failure, e.g., display an error message
-                                    });
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                // Handle the SQL exception, you can display an error message
-                                runOnUiThread(() -> {
-                                    // TODO: Implement logic for failure, e.g., display an error message
-                                });
-                            }
-                        }).start();
-                    }
-                });
-            });
         });
 
 
@@ -273,7 +204,7 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
                             Toast.makeText(EnrollmentDetailsActivity.this, customerID, Toast.LENGTH_SHORT).show();
                             Log.i("customerid", "customer id retrieved.");
 
-                            getEphericalKey(customerID);
+                            getEphericalKey(customerID,price);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -341,11 +272,104 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
 
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(this, "payment success", Toast.LENGTH_SHORT).show();
+            SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+            String login_email_id = preferences.getString("login_email_id", "");
+            String name = preferences.getString("name", "");
+            int courseId = preferences.getInt("courseId",0);
+            String learner_comment = preferences.getString("learner_comment","");
+//            checkUserRegistration(courseId, login_email_id, isRegistered -> {
+//                // Use the result (isRegistered) here
+//                runOnUiThread(() -> {
+//                    if (isRegistered) {
+//                        Toast.makeText(EnrollmentDetailsActivity.this, "You have already enrolled for this course", Toast.LENGTH_SHORT).show();
+//                    } else {
+//
+//                    }
+//                });
+//            });
+            new Thread(() -> {
+                try (Connection connection = DriverManager.getConnection(url, username, password);
+                     PreparedStatement insertStatement = connection.prepareStatement(
+                             "INSERT INTO RegisteredCourses (selected_course, user_name, status, learner_comment, ispayment_done) VALUES (?, ?, ?, ?,?)")) {
+
+                    // Set the parameters using PreparedStatement to prevent SQL injection
+                    insertStatement.setInt(1, courseId); // Assuming courseId is the selected_course
+                    insertStatement.setString(2, login_email_id);
+                    insertStatement.setString(3, "Enrolled");
+                    insertStatement.setString(4, learner_comment); // Assuming "Enrolled" is the initial status
+                    insertStatement.setBoolean(5, true); // Assuming payment is done
+
+                    // Execute the insert statement
+                    int rowsInserted = insertStatement.executeUpdate();
+
+                    if (rowsInserted > 0) {
+                        String instructor_email = null;
+                        String  course_name = null;
+
+                        try (Statement statement = connection.createStatement()) {
+                            String query = "SELECT * FROM CoursesOffered WHERE course_id='" + courseId + "'";
+                            try (ResultSet resultSet = statement.executeQuery(query)) {
+                                if (resultSet.next()) {
+                                    Integer instructor_id = resultSet.getInt("instructor_id");
+                                    course_name = resultSet.getString("course_name");
+                                    String query2 = "SELECT * FROM signup WHERE id='" + instructor_id + "'";
+                                    try (ResultSet resultSet2 = statement.executeQuery(query2)) {
+                                        if (resultSet2.next()) {
+                                            instructor_email = resultSet2.getString("emailid");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // ... rest of your code
+
+                        String notificationText = name+" Registered for your Course "+course_name;
+                        NotificationUtils.insertNewNotification(instructor_email, notificationText, new NotificationUtils.InsertNotificationCallback() {
+                            @Override
+                            public void onNotificationInserted(boolean success) {
+                                if (success) {
+                                    Log.d(TAG, "NOTIFICATION INSERTED");
+                                    // Handle successful insertion
+                                } else {
+                                    Log.d(TAG, "NOTIFICATION FAILED");
+                                    // Handle insertion failure
+                                }
+                            }
+                        });
+
+                        // Insert successful, you can display a success message or navigate to another screen
+                        runOnUiThread(() -> {
+                            // TODO: Implement logic for success, e.g., display a success message or navigate to another screen
+                            Toast.makeText(EnrollmentDetailsActivity.this, "Enrolled for the course successfully", Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("enrolledCourseId", courseId);
+                            resultIntent.putExtra("login_email_id", login_email_id);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        });
+                    } else {
+                        // Insert failed, you can display an error message
+                        runOnUiThread(() -> {
+                            Toast.makeText(EnrollmentDetailsActivity.this, "Failed to enroll", Toast.LENGTH_SHORT).show();
+
+                            // TODO: Implement logic for failure, e.g., display an error message
+                        });
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Handle the SQL exception, you can display an error message
+                    runOnUiThread(() -> {
+                        // TODO: Implement logic for failure, e.g., display an error message
+                    });
+                }
+            }).start();
+
         }
 
     }
 
-    private void getEphericalKey(String customerID) {
+    private void getEphericalKey(String customerID, Float price) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/ephemeral_keys",
@@ -393,7 +417,6 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
     }
 
     private void getClientSecret(String customerID, String ephericalkey) {
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/payment_intents",
                 new Response.Listener<String>() {
@@ -403,16 +426,14 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject(response);
                             ClientSecret = object.getString("client_secret");
                             Toast.makeText(EnrollmentDetailsActivity.this, ClientSecret, Toast.LENGTH_SHORT).show();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // Handle error
             }
         }) {
             @Override
@@ -426,7 +447,10 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("customer", customerID);
-                params.put("amount", "1000" + "00");
+                SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+                Float price = preferences.getFloat("price", 0);
+                int amountInCents = (int) (price * 100);
+                params.put("amount", String.valueOf(amountInCents)); // Convert amount to string
                 params.put("currency", "cad");
                 params.put("automatic_payment_methods[enabled]", "true");
                 return params;
@@ -435,8 +459,6 @@ public class EnrollmentDetailsActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(EnrollmentDetailsActivity.this);
         requestQueue.add(stringRequest);
-
-
     }
 
     private void PaymentFlow() {
