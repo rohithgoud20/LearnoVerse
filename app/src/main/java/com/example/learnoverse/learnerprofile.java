@@ -1,29 +1,32 @@
 package com.example.learnoverse;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-import android.database.Cursor;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class learnerprofile extends AppCompatActivity {
 
-    private int year, month, day;
+    public static final String DATABASE_NAME = "learnoverse";
+    public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
+    public static final String username= "admin";
+    public static final String password = "learnoverse";
+    public static final String TABLE_NAME = "learnerprofilestbs";
+
     private Button dateOfBirthButton;
     private EditText dateOfBirthEditText;
-    private Button submitbut;
-
+    private Button submitButton;
+    private int year, month, day;
     private EditText firstNameEditText, lastNameEditText, emailEditText,
             phoneNumberEditText, qualificationEditText, interestsEditText;
 
@@ -33,80 +36,75 @@ public class learnerprofile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learnerprofile);
-        Intent intent = getIntent();
-        String user_name = intent.getStringExtra("user_name");
 
-        dateOfBirthButton = findViewById(R.id.dateOfBirthButton); // Make sure to use the correct ID
-        dateOfBirthEditText = findViewById(R.id.dateOfBirthEditText); // Use the correct ID for the EditText
-        submitbut=findViewById(R.id.continueButton);
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+
+        dateOfBirthButton = findViewById(R.id.dateOfBirthButton);
+        dateOfBirthEditText = findViewById(R.id.dateOfBirthEditText);
+        submitButton = findViewById(R.id.continueButton);
         firstNameEditText = findViewById(R.id.first_name);
         lastNameEditText = findViewById(R.id.last_name);
         emailEditText = findViewById(R.id.email);
         phoneNumberEditText = findViewById(R.id.phone_number);
         qualificationEditText = findViewById(R.id.qualification);
         interestsEditText = findViewById(R.id.interests);
-        emailEditText.setText(user_name);
+        emailEditText.setText(email);
 
         genderRadioGroup = findViewById(R.id.gender);
-        dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(999); // Show the date picker dialog
-            }
-        });
-        submitbut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String firstName = firstNameEditText.getText().toString();
-                String lastName = lastNameEditText.getText().toString();
-                String dateOfBirth = dateOfBirthEditText.getText().toString();
-//                String email = emailEditText.getText().toString();
-                String phoneNumber = phoneNumberEditText.getText().toString();
-                String qualification = qualificationEditText.getText().toString();
-                String interests = interestsEditText.getText().toString();
 
-                int selectedGenderId = genderRadioGroup.getCheckedRadioButtonId();
-                RadioButton selectedGenderRadioButton = findViewById(selectedGenderId);
-                String gender = selectedGenderRadioButton.getText().toString();
+        dateOfBirthButton.setOnClickListener(v -> showDialog(999));
+//        SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+//        String emai = preferences.getString("login_email_id", "");
 
+        submitButton.setOnClickListener(v -> {
+            String firstName = firstNameEditText.getText().toString();
+            String lastName = lastNameEditText.getText().toString();
+            String dateOfBirth = dateOfBirthEditText.getText().toString();
+            String phoneNumber = phoneNumberEditText.getText().toString();
+            String qualification = qualificationEditText.getText().toString();
+            String interests = interestsEditText.getText().toString();
 
-                MyDatabaseHelper dbHelper = new MyDatabaseHelper(learnerprofile.this);
+            int selectedGenderId = genderRadioGroup.getCheckedRadioButtonId();
+            RadioButton selectedGenderRadioButton = findViewById(selectedGenderId);
+            String gender = selectedGenderRadioButton.getText().toString();
 
-                // Get a writable database
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                // Create a ContentValues object to hold the data
-                ContentValues values = new ContentValues();
-                values.put("first_name", firstName);
-                values.put("last_name", lastName);
-                values.put("date_of_birth", dateOfBirth);
-                values.put("gender", gender);
-                values.put("username", user_name);
-                values.put("email", user_name);
-                values.put("phone_number", phoneNumber);
-                values.put("highest_qualification", qualification);
-                values.put("interests", interests);
-
-                // Insert the data into the "learner" table
-                long newRowId = db.insert("learner", null, values);
-
-                // Close the database
-                db.close();
-
-                // Check if the insertion was successful
-                if (newRowId != -1) {
-                    Toast.makeText(learnerprofile.this, "Saved your profile! Please Login", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(learnerprofile.this, "Data insertion failed", Toast.LENGTH_SHORT).show();
-                }
-
-                Intent intent = new Intent(learnerprofile.this, MainActivity.class);
-                startActivity(intent);
-
-            }
+            insertLearnerData(email, firstName, lastName, dateOfBirth, gender, phoneNumber, qualification, interests);
+            Intent newIntent = new Intent(learnerprofile.this, MainActivity.class);
+            startActivity(newIntent);
         });
 
     }
+
+    private void insertLearnerData(String email, String firstName, String lastName, String dateOfBirth, String gender, String phoneNumber, String qualification, String interests) {
+        new Thread(() -> {
+            try {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                Statement statement = connection.createStatement();
+
+                // Construct the SQL query (Note: This is more vulnerable to SQL injection)
+                String query = "INSERT INTO " + TABLE_NAME +
+                        " (email, first_name, last_name, date_of_birth, gender, phone_number, highest_qualification, interests) " +
+                        "VALUES ('" + email + "', '" + firstName + "', '" + lastName + "', '" + dateOfBirth + "', '" +
+                        gender + "', '" + phoneNumber + "', '" + qualification + "', '" + interests + "')";
+
+                int rowsAffected = statement.executeUpdate(query);
+
+                if (rowsAffected > 0) {
+                    System.out.println("Data inserted successfully.");
+                } else {
+                    System.out.println("Failed to insert data.");
+                }
+
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -116,12 +114,8 @@ public class learnerprofile extends AppCompatActivity {
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Process the selected date
-            String selectedDate = year + "-" + (month + 1) + "-" + day; // Format the date as needed
-            dateOfBirthEditText.setText(selectedDate); // Update the date in the EditText
-        }
+    private final DatePickerDialog.OnDateSetListener myDateListener = (view, year, month, day) -> {
+        String selectedDate = year + "-" + (month + 1) + "-" + day;
+        dateOfBirthEditText.setText(selectedDate);
     };
 }

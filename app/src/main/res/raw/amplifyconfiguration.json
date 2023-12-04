@@ -1,0 +1,14 @@
+{
+  "storage": {
+    "AWSS3": {
+      "bucket": "learnoverseuploadfiles",
+      "region": "eu-north-1",
+      "defaultAccessLevel": "guest",
+      "customPrefix": {
+        "public": "",
+        "protected": "",
+        "private": ""
+      }
+    }
+  }
+}

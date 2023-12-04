@@ -29,6 +29,7 @@
                 android:layout_marginBottom="16dp">
 
                 <EditText
+                    android:id="@+id/firstname"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
+                    android:id="@+id/lastn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -63,7 +65,7 @@
             <!-- Date of Birth EditText -->
             <EditText
                 android:id="@+id/dateOfBirthEditText"
-            android:layout_width="match_parent"
+                android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/colorPrimary"
@@ -76,6 +78,7 @@
 
             <!-- Radio Buttons for Gender -->
             <RadioGroup
+                android:id="@+id/lge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -94,6 +97,7 @@
             </RadioGroup>
 
             <EditText
+                android:id="@+id/emailI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -107,6 +111,7 @@
 
 
             <EditText
+                android:id="@+id/qInstr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -116,18 +121,17 @@
                 android:padding="12dp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/colorAccent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Availabilty"/>
+            <Spinner
+                android:id="@+id/availabilitySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Availability"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColorHint="@color/colorAccent"
-                android:textColor="@android:color/black"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp"
-                android:inputType="text" />
-            <EditText
+                android:id="@+id/expert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Expertise"
@@ -139,6 +143,7 @@
                 android:inputType="text" />
 
             <EditText
+                android:id="@+id/exp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Experience"

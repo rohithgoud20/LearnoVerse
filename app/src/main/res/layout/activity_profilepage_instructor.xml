@@ -1,4 +1,4 @@
-<!-- res/layout/activity_profile.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -92,10 +92,9 @@
                     android:id="@+id/dobText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="8dp"
 
-                />
+                    />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -153,7 +152,6 @@
                     android:id="@+id/mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="8dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -176,8 +174,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/europe"
-                    android:contentDescription="Country"
+                    android:src="@drawable/equality"
+                    android:contentDescription="gender"
                     android:layout_gravity="left" />
 
                 <TextView
@@ -185,17 +183,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
-                    android:text="Country"
+                    android:text="Gender"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/editCountry"
+                    android:id="@+id/editgender"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
                     android:layout_gravity="right"
-                    android:contentDescription="Edit Country"
+                    android:contentDescription="Edit Gender"
                     android:paddingStart="8dp" />
             </LinearLayout>
 
@@ -208,10 +206,9 @@
                 android:padding="8dp">
 
                 <EditText
-                    android:id="@+id/country"
+                    android:id="@+id/gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="8dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -269,13 +266,12 @@
                     android:id="@+id/qualification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="8dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
 
-        <!-- CardView for Interests -->
+        <!-- CardView for Subjects Taught -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -293,8 +289,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/hobby"
-                    android:contentDescription="Interests"
+                    android:src="@drawable/available"
+                    android:contentDescription="Availability"
                     android:layout_gravity="left" />
 
                 <TextView
@@ -302,18 +298,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
-                    android:text="Interests"
+                    android:text="Availabity"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/editInterests"
+                    android:id="@+id/editavail"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
-                    android:clickable="true"
                     android:layout_gravity="right"
-                    android:contentDescription="Edit Interests"
+                    android:contentDescription="Edit availability"
                     android:paddingStart="8dp" />
             </LinearLayout>
 
@@ -326,12 +321,71 @@
                 android:padding="8dp">
 
                 <EditText
-                    android:id="@+id/interests"
+                    android:id="@+id/availability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- CardView for Experience -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginTop="16dp">
+
+            <!-- First Row (Heading) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/exp"
+                    android:contentDescription="expertise"
+                    android:layout_gravity="left" />
+
+                <TextView
+                    android:layout_width="307dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="8dp"
+                    android:text="Expertise"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/editExpertise"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/pencil"
+                    android:layout_gravity="right"
+                    android:contentDescription="Edit Expertise"
+                    android:paddingStart="8dp" />
+            </LinearLayout>
+
+            <!-- Second Row (Value) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:padding="8dp">
+
+                <EditText
+                    android:id="@+id/expertise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
         <!-- CardView for Languages Known -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -350,8 +404,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/languages"
-                    android:contentDescription="Languages Known"
+                    android:src="@drawable/experience"
+                    android:contentDescription="Expierence"
                     android:layout_gravity="left" />
 
                 <TextView
@@ -359,17 +413,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
-                    android:text="Languages Known"
+                    android:text="Experience"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/editLanguages"
+                    android:id="@+id/editexprience"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
                     android:layout_gravity="right"
-                    android:contentDescription="Edit Languages Known"
+                    android:contentDescription="Edit experience"
                     android:paddingStart="8dp" />
             </LinearLayout>
 
@@ -382,10 +436,9 @@
                 android:padding="8dp">
 
                 <EditText
-                    android:id="@+id/languages"
+                    android:id="@+id/exprience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="8dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

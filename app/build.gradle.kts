@@ -48,7 +48,22 @@ dependencies {
     implementation("com.android.volley:volley:1.1.0")
     testImplementation("junit:junit:4.13.2")
     implementation ("mysql:mysql-connector-java:5.1.49")
-   // implementation("com.wdullaer:materialdatetimepicker:4.3.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation ("com.amplifyframework:core:1.17.4")
+    implementation ("com.amplifyframework:aws-storage-s3:1.17.4")
+
+    implementation ("androidx.cardview:cardview:1.0.0")
+
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:1.0.9")
+
+
+
+
+
+
+    // implementation("com.wdullaer:materialdatetimepicker:4.3.1")
 // Use the appropriate version
 
 
