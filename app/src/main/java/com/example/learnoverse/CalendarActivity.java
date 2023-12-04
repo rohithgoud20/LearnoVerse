@@ -1,62 +1,83 @@
 package com.example.learnoverse;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.CalendarView;
-import android.widget.TextView;
-import android.graphics.Color;
+import static com.example.learnoverse.CalendarUtils.daysInMonthArray;
+import static com.example.learnoverse.CalendarUtils.monthYearFromDate;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import android.util.AttributeSet;
-import java.util.List;
-import java.util.Calendar;
 
-public class CalendarActivity extends AppCompatActivity {
-    private CalendarView calendarView;
-    private TextView dueDetailsTextView;
+public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
+{
+    private TextView monthYearText;
+    private RecyclerView calendarRecyclerView;
 
-    private CustomCalendarView customCalendarView;
-
-
-    // Dummy list of DueItems
-    private List<DueItem> dueItems;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
-        // Initialize the CalendarView and TextView
-        calendarView = findViewById(R.id.calendar);
-        dueDetailsTextView = findViewById(R.id.dueDetailsTextVw);
-
-        customCalendarView = findViewById(R.id.customCalendarView);
-
-        // Dummy data for DueItems
-        dueItems = new ArrayList<DueItem>();
-        dueItems.add(new DueItem("Course 1", "Instructor 1", "2023-11-15"));
-        dueItems.add(new DueItem("Course 2", "Instructor 2", "2023-11-20"));
-
-        // Set a date change listener for the CalendarView
-        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
-            displayDueDetails(selectedDate);
-        });
+        initWidgets();
+        CalendarUtils.selectedDate = LocalDate.now();
+        setMonthView();
     }
 
-    private void displayDueDetails(String selectedDate) {
-        StringBuilder details = new StringBuilder("Dues on " + selectedDate + ":\n\n");
-        for (DueItem item : dueItems) {
-            if (item.getDueDate().equals(selectedDate)) {
-                details.append("Course: ").append(item.getCourseName()).append("\n");
-                details.append("Instructor: ").append(item.getInstructorName()).append("\n\n");
-            }
+    private void initWidgets()
+    {
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
+        monthYearText = findViewById(R.id.monthYearTV);
+    }
+
+    private void setMonthView()
+    {
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> selectedDays = new ArrayList<>();
+        selectedDays.add(CalendarUtils.selectedDate.plusDays(1));
+        selectedDays.add(CalendarUtils.selectedDate.plusDays(3));
+        selectedDays.add(CalendarUtils.selectedDate.plusDays(5));
+       // CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this,selectedDays,this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
+        calendarRecyclerView.setLayoutManager(layoutManager);
+       // calendarRecyclerView.setAdapter(calendarAdapter);
+    }
+
+    public void previousMonthAction(View view)
+    {
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+        setMonthView();
+    }
+
+    public void nextMonthAction(View view)
+    {
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        setMonthView();
+    }
+
+    @Override
+    public void onItemClick(int position, LocalDate date)
+    {
+        if(date != null)
+        {
+            CalendarUtils.selectedDate = date;
+            setMonthView();
         }
-        dueDetailsTextView.setText(details.toString());
     }
 
+    public void weeklyAction(View view)
+    {
+        startActivity(new Intent(this, WeekViewActivity.class));
+    }
 }
-

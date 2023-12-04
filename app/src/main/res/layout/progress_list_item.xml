@@ -1,34 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- progress_courses_item.xml -->
+<!-- res/layout/course_card_layout.xml -->
 
-<RelativeLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp">
 
-    <!-- Course name -->
-    <TextView
-        android:id="@+id/courseNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Course Name"
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
-
-    <!-- Horizontal Progress bar for course -->
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/courseNameTextView"
-        android:layout_marginTop="8dp"
-        android:max="100"
-        android:progress="0"
-        style="?android:attr/progressBarStyleHorizontal" >
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    </ProgressBar>
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- ImageView for the course icon -->
+            <ImageView
+                android:id="@+id/courseIconImageView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="8dp"
+                android:contentDescription="Course Icon"/>
+
+            <!-- TextView for the course name -->
+            <TextView
+                android:id="@+id/courseNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/instructorNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Rating -->
+        <TextView
+            android:id="@+id/ratingTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"/>
+
+        <!-- No of Sessions -->
+        <TextView
+            android:id="@+id/noOfSessionsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"/>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"/>
 
 
+        <!-- Other course details and progress bar can be added here -->
 
+        <ProgressBar
+            android:id="@+id/horizontalProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -48,6 +48,7 @@ dependencies {
     implementation("com.android.volley:volley:1.1.0")
     testImplementation("junit:junit:4.13.2")
     implementation ("mysql:mysql-connector-java:5.1.49")
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:1.0.9")
    // implementation("com.wdullaer:materialdatetimepicker:4.3.1")
 // Use the appropriate version
 

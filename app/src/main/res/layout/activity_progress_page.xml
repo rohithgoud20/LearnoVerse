@@ -1,213 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<!-- res/layout/my_courses_layout.xml -->
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Progress">
+    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:id="@+id/goalsCardView"
-        android:layout_height="wrap_content"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="264dp"
-                    android:layout_height="wrap_content"
-                    android:text="GOALS"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height='24dp'
-                    android:src="@drawable/goal"/>
-            </LinearLayout>
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/goalsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
-            <Button
-
-                android:id="@+id/setNewGoalButton"
-                android:layout_width="325dp"
-                android:layout_height="wrap_content"
-                android:text="Set up new goal" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
-        <!-- Course name -->
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:id="@+id/progressCardView"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/goalsCardView"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="8dp"
-    android:layout_margin="16dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Courses"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Course Card Container -->
+
         <LinearLayout
+            android:id="@+id/cardsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="275dp"
-                android:layout_height="wrap_content"
-                android:text="PROGRESS"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height='24dp'
-                android:src="@drawable/inprogress"/>
+            android:orientation="vertical"
+            android:layout_margin="12dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ProgressRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
     </LinearLayout>
-
-
-</androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progressCardView"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="16dp">
-
-        <!-- Add this to your existing XML layout -->
-        <LinearLayout
-            android:id="@+id/completedCoursesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:orientation="vertical">
-            <!-- RecyclerView for displaying completed courses -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/completedCoursesRecyclerView"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content" />
-            <!-- Course name input -->
-            <EditText
-                android:id="@+id/courseNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Course Name" />
-            <!-- Rating input -->
-            <EditText
-                android:id="@+id/ratingEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Rating (0-5)" />
-            <!-- Button to submit the rating -->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit Rating"
-                android:id="@+id/submitRatingButton" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/OverallProgress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="285dp"
-                    android:layout_height="wrap_content"
-                    android:text="OVERALL PROGRESS"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height='24dp'
-                    android:src="@drawable/overallprog"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <!-- Legend for "New Goals" -->
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@color/blue"
-                    android:layout_margin="3dp"/> <!-- You can define this color in your resources -->
-                <TextView
-                    android:layout_width="164dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:text="New Goals" />
-
-                <!-- Legend for "In Progress" -->
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@color/green"
-                    android:layout_margin="3dp"/> <!-- You can define this color in your resources -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="In Progress"
-                    android:paddingStart="8dp" />
-            </LinearLayout>
-
-
-            <com.example.learnoverse.CustomPieChartView
-                android:id="@+id/pieChart"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-        </LinearLayout>
-
-</androidx.cardview.widget.CardView>
-
-
-
-</RelativeLayout>
+</ScrollView>

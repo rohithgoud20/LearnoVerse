@@ -59,7 +59,7 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
             //instructorNameTextView = itemView.findViewById(R.id.instructorNameTextView);
 //            sessionsTextView = itemView.findViewById(R.id.sessionsTextView);
 //            status = itemView.findViewById(R.id.status);
-            progressBar = itemView.findViewById(R.id.progressBar);
+            //progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 

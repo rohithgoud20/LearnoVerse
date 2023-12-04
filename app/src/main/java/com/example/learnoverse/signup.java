@@ -1,7 +1,9 @@
 package com.example.learnoverse;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,9 +11,13 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Base64;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class signup extends AppCompatActivity {
 
@@ -47,6 +53,10 @@ public class signup extends AppCompatActivity {
 
                 // Handle learner sign-up logic here
                 Insertdata(name, email, pass, "learner");
+                Intent intent = new Intent(signup.this, learnerprofile.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                //  startActivity(new Intent(signup.this,learnerprofile.class));
             }
         });
 
@@ -59,24 +69,49 @@ public class signup extends AppCompatActivity {
                 String pass = editTextPassword.getText().toString();
 
                 // Handle instructor sign-up logic here
+
                 Insertdata(name, email, pass, "instructor");
+                Intent intent = new Intent(signup.this, InstructorProfile.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void Insertdata(String n, String em, String p, String u) {
         new Thread(() -> {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
+                byte[] salt = generateSalt();
+                String hashedPassword = hashPassword(p, salt);
+                Log.d("Insertdata", "Generated Salt: " + Base64.getEncoder().encodeToString(salt));
+                Log.d("Insertdata", "Hashed Password: " + hashedPassword);
 
                 // add to RDS DB:
-                statement.execute("INSERT INTO " + TABLE_NAME + "(name, emailid, password, usertype) VALUES('" + n + "', '" + em + "', '" + p + "', '" + u + "')");
-
+                statement.execute("INSERT INTO " + TABLE_NAME + "(name, emailid, password, salt, usertype) VALUES('" + n + "', '" + em + "', '" + hashedPassword + "', '" + Base64.getEncoder().encodeToString(salt) + "', '" + u + "')");
                 connection.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
     }
+    private byte[] generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return salt;
+    }
+    private String hashPassword(String password, byte[] salt) {
+        // Define the work factor (logarithmic cost factor)
+        int workFactor = 12; // You can adjust this according to your needs
+
+        // Hash the password using BCrypt
+        String hashedPassword = BCrypt.withDefaults().hashToString(workFactor, password.toCharArray());
+
+        return hashedPassword;
+    }
+
+
 }

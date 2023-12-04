@@ -51,9 +51,9 @@ public class HomePage extends AppCompatActivity {
         ImageView profileIcon = findViewById(R.id.butprofile);
         TextView welcomemsg= findViewById(R.id.welcometextView);
         SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-        String username = preferences.getString("username", null);
-        String firstname = getFirstName(username);
-        welcomemsg.setText("Welcome "+ firstname);
+        String name = preferences.getString("name", null);
+       // String firstname = getFirstName(username);
+        welcomemsg.setText("Welcome "+ name);
         editTextSearch =findViewById(R.id.searchbar);
         buttonSearch = findViewById(R.id.butsearch);
         buttonProfile = findViewById(R.id.butprofile);
@@ -147,7 +147,7 @@ public class HomePage extends AppCompatActivity {
         calenbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePage.this,CalendarActivity.class);
+                Intent intent=new Intent(HomePage.this,ScheduleActivity.class);
                 startActivity(intent);
             }
         });

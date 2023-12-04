@@ -48,6 +48,7 @@ public class NewCourseDialogFragment extends DialogFragment {
     private EditText meetingLinkEditText;
     private EditText courseDescriptionEditText;
     private List<Sessions> sessionsList;
+    private NewCourseDialogListener listener;
 
     public static final String DATABASE_NAME = "learnoverse";
     public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
@@ -56,6 +57,7 @@ public class NewCourseDialogFragment extends DialogFragment {
 
     public interface NewCourseDialogListener {
         void onNewCourseSubmit(String courseName, List<String> sessions, double price, String meetingLink, String courseDescription);
+        void onCoursesUpdated();
     }
 
 
@@ -140,6 +142,15 @@ public class NewCourseDialogFragment extends DialogFragment {
         });
 
         showDatePickerDialog(datePicker);
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (NewCourseDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement NewCourseDialogListener");
+        }
     }
 
     private boolean isSessionAlreadyExists(String selectedDate, String selectedTime) {
@@ -247,7 +258,7 @@ public class NewCourseDialogFragment extends DialogFragment {
 
     private void onSubmitClicked() {
         // ... existing code ...
-
+        List<Course> courses = new ArrayList<>();
         // Example: Print sessionsList details
         for (Sessions session : sessionsList) {
             System.out.println("Session Date: " + session.getDate() + ", Session Time: " + session.getTime() + ", Session Name: " + session.getSessionName());
@@ -276,6 +287,7 @@ public class NewCourseDialogFragment extends DialogFragment {
 
                 if (rowsInserted > 0) {
                     // Insert successful, you can display a success message or navigate to another screen
+
                     ResultSet generatedKeys = insertCourseStatement.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         int courseId = generatedKeys.getInt(1);
@@ -291,16 +303,29 @@ public class NewCourseDialogFragment extends DialogFragment {
 
                                 // Execute the query for each session
                                 insertSessionStatement.executeUpdate();
+//                                Course course = new Course(courseNameEditText.getText().toString(),
+//                                        courseDescriptionEditText.getText().toString(),
+//                                        sessionsList.size(), Double.parseDouble(priceEditText.getText().toString()),
+//                                        meetingLinkEditText.getText().toString());
+//                                courses.add(course);
                             }
                         }
                     }
+                    new android.os.Handler(requireContext().getMainLooper()).post(() -> {
+                        Toast.makeText(requireContext(), "Course and sessions inserted successfully", Toast.LENGTH_SHORT).show();
+                        if (listener != null) {
+                            listener.onCoursesUpdated();
+                        }
+                    });
                 } else {
                     // Insert failed, you can display an error message
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
                 // Handle the SQL exception, you can display an error message
-
+                new android.os.Handler(requireContext().getMainLooper()).post(() -> {
+                    Toast.makeText(requireContext(), "Course and sessions inserted failed", Toast.LENGTH_SHORT).show();
+                });
             }
         }).start();
 

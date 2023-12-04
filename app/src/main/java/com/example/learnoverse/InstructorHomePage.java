@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ public class InstructorHomePage extends AppCompatActivity {
 
         ImageView profileIcon = findViewById(R.id.butprofile);
         TextView welcomeMsg = findViewById(R.id.welcometextView);
+        ImageView notification = findViewById(R.id.butnotification);
 
         // Retrieve instructor's information from SharedPreferences or any other source
         // Replace the following line with your logic to get instructor details
@@ -69,6 +71,14 @@ public class InstructorHomePage extends AppCompatActivity {
                 startActivity(new Intent(InstructorHomePage.this, InstructorAnalysis.class));
             }
         });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InstructorHomePage.this, NotificationsActivity.class));
+            }
+        });
+
 
 //        // Create Course Button
 //        Button createCourseButton = findViewById(R.id.createCourseButton);

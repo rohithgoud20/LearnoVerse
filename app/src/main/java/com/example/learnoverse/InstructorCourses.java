@@ -21,13 +21,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstructorCourses extends AppCompatActivity {
+public class InstructorCourses extends AppCompatActivity implements NewCourseDialogFragment.NewCourseDialogListener {
 
     // Replace these values with your actual database credentials
     public static final String DATABASE_NAME = "learnoverse";
     public static final String url = "jdbc:mysql://database-1.cue4ta1kd8o8.eu-north-1.rds.amazonaws.com:3306/" + DATABASE_NAME;
     public static final String username = "admin", password = "learnoverse";
     public static final String TABLE_NAME = "CoursesOffered";
+
+    LinearLayout coursesContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class InstructorCourses extends AppCompatActivity {
         getCoursesForEmailAndDisplay();
 
         Button newCourseButton = findViewById(R.id.newCourseButton);
+        coursesContainer= findViewById(R.id.coursesContainer);
         newCourseButton.setOnClickListener(v -> showNewCourseDialog());
     }
 
@@ -81,8 +84,12 @@ public class InstructorCourses extends AppCompatActivity {
                 connection.close();
 
                 // After fetching data, update the UI on the main thread
-                runOnUiThread(() -> displayCourses(courses));
-
+                runOnUiThread(() -> {
+                    // Clear existing courses before adding the updated ones
+                    coursesContainer.removeAllViews();
+                    // Display the updated courses
+                    displayCourses(courses);
+                });
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -90,9 +97,20 @@ public class InstructorCourses extends AppCompatActivity {
         }).start();
     }
 
+    @Override
+    public void onNewCourseSubmit(String courseName, List<String> sessions, double price, String meetingLink, String courseDescription) {
+
+    }
+
+    @Override
+    public void onCoursesUpdated() {
+        // Refresh the list of courses after adding a new course
+        getCoursesForEmailAndDisplay();
+    }
+
     private void displayCourses(List<Course> courses) {
         // Get references to UI elements
-        LinearLayout coursesContainer = findViewById(R.id.coursesContainer);
+
 
         for (Course course : courses) {
             View courseCard = LayoutInflater.from(this).inflate(R.layout.instructor_course_cards_layout, null);
@@ -112,5 +130,10 @@ public class InstructorCourses extends AppCompatActivity {
             // Add the course card to the container
             coursesContainer.addView(courseCard);
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }
