@@ -89,12 +89,7 @@ public class InstructorHomePage extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.Chats).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(InstructorHomePage.this, Chats.class));
-            }
-        });
+
         findViewById(R.id.Students).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,12 +98,7 @@ public class InstructorHomePage extends AppCompatActivity {
         });
 
         // Chats Card
-        findViewById(R.id.Analysis).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(InstructorHomePage.this, InstructorAnalysis.class));
-            }
-        });
+
 
 //        // Create Course Button
 //        Button createCourseButton = findViewById(R.id.createCourseButton);

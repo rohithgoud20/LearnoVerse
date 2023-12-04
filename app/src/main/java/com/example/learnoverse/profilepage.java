@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -57,7 +61,7 @@ public class profilepage extends AppCompatActivity {
         String emailId = preferences.getString("login_email_id", "");
 
         // Initialize UI components
-//        profileImage = findViewById(R.id.profileImage);
+        profileImage = findViewById(R.id.profileImage);
         profileName = findViewById(R.id.profileName);
         dobText = findViewById(R.id.dobText);
         mobile = findViewById(R.id.mobile);
@@ -152,9 +156,11 @@ public class profilepage extends AppCompatActivity {
                 String qualificationValue = qualification.getText().toString();
                 String interestsValue = interests.getText().toString();
                 String languagesValue = languages.getText().toString();
-
+                Drawable drawable = profileImage.getDrawable();
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                byte[] profilePicture = convertBitmapToByteArray(bitmap);
                 // Call saveProfile method
-                saveProfile(emailId, firstName, "last_name_placeholder", dob, languagesValue, countryValue, "gender_placeholder", mobileNumber, qualificationValue, interestsValue);
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, languagesValue, countryValue, "gender_placeholder", mobileNumber, qualificationValue, interestsValue,profilePicture);
                 Toast.makeText(getApplicationContext(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
             }
         });
@@ -189,7 +195,8 @@ public class profilepage extends AppCompatActivity {
                         String qualifi = rs.getString("highest_qualification");
                         String ints = rs.getString("interests");
                         String lang = rs.getString("languages");
-
+                        byte[] profilePictureData=rs.getBytes("profile_image");
+                        Log.d("ProfileImageDataLength", String.valueOf(profilePictureData.length));
                         // Update UI on the main thread
                         runOnUiThread(() -> {
                             // Set EditText fields with fetched data
@@ -200,6 +207,8 @@ public class profilepage extends AppCompatActivity {
                             qualification.setText(qualifi);
                             interests.setText(ints);
                             languages.setText(lang);
+                            profileImage.setImageBitmap(BitmapFactory.decodeByteArray(profilePictureData, 0, profilePictureData.length));
+
                         });
                     }
 
@@ -237,7 +246,7 @@ public class profilepage extends AppCompatActivity {
     }
 
     public static void saveProfile(String emailid, String firstName, String lastName, String dob, String languages, String country,
-                                   String gender, String phoneNumber, String highestQualification, String interests) {
+                                   String gender, String phoneNumber, String highestQualification, String interests,byte[] profilePicture) {
         new Thread(() -> {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -253,7 +262,8 @@ public class profilepage extends AppCompatActivity {
                         "gender = ?, " +
                         "phone_number = ?, " +
                         "highest_qualification = ?, " +
-                        "interests = ? " +
+                        "interests = ? ," +
+                        "profile_image = ? " +
                         "WHERE email = ?";
 
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -267,7 +277,8 @@ public class profilepage extends AppCompatActivity {
                     preparedStatement.setString(7, phoneNumber);
                     preparedStatement.setString(8, highestQualification);
                     preparedStatement.setString(9, interests);
-                    preparedStatement.setString(10, emailid);
+                    preparedStatement.setBytes(10, profilePicture);
+                    preparedStatement.setString(11, emailid);
 
                     // Execute the update
                     preparedStatement.executeUpdate();
@@ -306,42 +317,66 @@ public class profilepage extends AppCompatActivity {
                 .show();
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String firstName = profileName.getText().toString();
+        String dob = dobText.getText().toString();
+        SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
+        String emailId = preferences.getString("login_email_id", "");
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_GALLERY) {
                 // Handle the gallery selection and set the image to the ImageView.
                 Uri selectedImage = data.getData();
                 profileImage.setImageURI(selectedImage);
-                SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("profile_image",selectedImage.toString());
 
-                editor.putString("image_type","Uri");
-                editor.apply();
+                // Convert Uri to byte array
+                byte[] profilePicture = convertUriToByteArray(selectedImage);
 
-
+                // Call saveProfile method to update the database
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, languages.getText().toString(),
+                        country.getText().toString(), "gender_placeholder", mobile.getText().toString(),
+                        qualification.getText().toString(), interests.getText().toString(), profilePicture);
             } else if (requestCode == REQUEST_CAMERA) {
                 // Handle the camera capture and set the image to the ImageView.
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 profileImage.setImageBitmap(photo);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
 
-                // Convert the byte array to a Base64-encoded string
-                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                // Convert Bitmap to byte array
+                byte[] profilePicture = convertBitmapToByteArray(photo);
 
-                SharedPreferences preferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("profile_image",encodedImage);
-                editor.putString("image_type","Bitmap");
-                editor.apply();
-
-
+                // Call saveProfile method to update the database
+                saveProfile(emailId, firstName, "last_name_placeholder", dob, languages.getText().toString(),
+                        country.getText().toString(), "gender_placeholder", mobile.getText().toString(),
+                        qualification.getText().toString(), interests.getText().toString(), profilePicture);
             }
         }
     }
+
+
+    private byte[] convertUriToByteArray(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private byte[] convertBitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
 }

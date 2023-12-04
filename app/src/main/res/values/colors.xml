@@ -18,7 +18,8 @@
     <color name="blue">#AEDFF7</color>
     <color name="green">#B2E0B2</color>
     <color name="gold">#d4af37 </color>
-
+    <color name="dark_blue">#1A237E</color>
+    <color name="dark_green">#004D40</color>
     <color name="colorPrimary1">#3F51B5</color>
     <color name="colorPrimaryDark1">#303F9F</color>
     <color name="colorAccent1">#FF4081</color>
