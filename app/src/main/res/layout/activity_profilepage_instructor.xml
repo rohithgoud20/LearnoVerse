@@ -184,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
-                    android:text="Gender"
+                    android:text="@string/gender"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -291,7 +291,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/available"
-                    android:contentDescription="Availability"
+                    android:contentDescription="@string/availability"
                     android:layout_gravity="left" />
 
                 <TextView
@@ -299,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingStart="8dp"
-                    android:text="Availabity"
+                    android:text="@string/availabity"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -309,7 +309,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
                     android:layout_gravity="right"
-                    android:contentDescription="Edit availability"
+                    android:contentDescription="@string/edit_availability"
                     android:paddingStart="8dp" />
             </LinearLayout>
 
@@ -406,7 +406,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/experience"
-                    android:contentDescription="Expierence"
+                    android:contentDescription="@string/expierence"
                     android:layout_gravity="left" />
 
                 <TextView
@@ -424,7 +424,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/pencil"
                     android:layout_gravity="right"
-                    android:contentDescription="Edit experience"
+                    android:contentDescription="@string/edit_experience"
                     android:paddingStart="8dp" />
             </LinearLayout>
 

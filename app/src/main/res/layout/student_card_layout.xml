@@ -19,7 +19,7 @@
             android:id="@+id/studentNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student: "
+            android:text="@string/student"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
@@ -29,7 +29,7 @@
             android:id="@+id/paymentDoneTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment Done: "
+            android:text="@string/payment_done"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
@@ -37,21 +37,21 @@
             android:id="@+id/learnerCommentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Learner Comment: "
+            android:text="@string/learner_comment"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
         <EditText
             android:id="@+id/meetingLinkEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Meeting Link"
+            android:hint="@string/enter_meeting_link"
             android:inputType="text"
             android:layout_marginBottom="8dp" />
         <Button
             android:id="@+id/sendMeetLinkButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send Meet Link"
+            android:text="@string/send_meet_link"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

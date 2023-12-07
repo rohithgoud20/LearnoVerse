@@ -14,7 +14,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Complete your profile !"
+                android:text="@string/complete_your_profile"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="18sp"
@@ -27,7 +27,7 @@
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="26dp"
-                android:contentDescription="App Logo"
+                android:contentDescription="@string/app_logo"
                 android:src="@drawable/learner" />
 
             <LinearLayout
@@ -57,7 +57,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="Last Name"
+                        android:hint="@string/last_name"
                         android:id="@+id/last_name"
                         android:inputType="text"
                         android:padding="12dp"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/white"
-                    android:text="Select Date of Birth"
+                    android:text="@string/select_date_of_birth"
                     android:onClick="showDatePicker"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:hint="Date of Birth"
+                    android:hint="@string/date_of_birth"
                     android:inputType="date"
                     android:padding="12dp"
                     android:textColor="@android:color/black"
@@ -102,12 +102,12 @@
                     <RadioButton
                         android:layout_width="192dp"
                         android:layout_height="wrap_content"
-                        android:text="Male" />
+                        android:text="@string/male" />
 
                     <RadioButton
                         android:layout_width="185dp"
                         android:layout_height="wrap_content"
-                        android:text="Female" />
+                        android:text="@string/female" />
 
                 </RadioGroup>
 
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:id="@+id/email"
                     android:inputType="textEmailAddress"
                     android:padding="12dp"
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:hint="Phone Number"
+                    android:hint="@string/phone_number"
                     android:id="@+id/phone_number"
                     android:inputType="phone"
                     android:padding="12dp"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:hint="Interests"
+                    android:hint="@string/interests"
                     android:id="@+id/interests"
                     android:inputType="text"
                     android:padding="12dp"

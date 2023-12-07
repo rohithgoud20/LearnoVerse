@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="20dp"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textColor="#301934"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:inputType="text" />
 
                 <!-- Password Input Field -->
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword" />
 
                 <!-- Login Button -->
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:clickable="true"
-                    android:text="Don't have an account? Sign up"
+                    android:text="@string/don_t_have_an_account_sign_up"
                     android:textColor="#301934" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

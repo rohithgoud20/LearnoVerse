@@ -1,0 +1,76 @@
+@startuml
+!define ICONURL https://www.plantuml.com/plantuml/img/
+!define ICON(name) [![](ICONURL{name}.png =20x20)]
+
+actor Instructor as Instructor
+actor Learner as Learner
+actor System as App
+
+rectangle Learnoverse {
+    (Signup)
+    (Login)
+    (Edit Profile)
+    (Register Courses)
+    (Upload Content)
+    (Schedule Meeting)
+    (See Upcoming Meetings)
+    (List of Registered Students)
+    (Notification)
+    (Logout)
+}
+
+rectangle Learnoverse {
+    (Signup)
+    (Login)
+    (Edit Profile)
+    (Choose Courses)
+    (Make Payments)
+    (Video Recommendations)
+    (Access Materials)
+    (See Schedule)
+    (Join Meeting)
+    (See Progress)
+    (Notification)
+    (Logout)
+}
+
+Instructor --> (Signup)
+Instructor --> (Login)
+Instructor --> (Edit Profile)
+Instructor --> (Register Courses)
+Instructor --> (Upload Content)
+Instructor --> (Schedule Meeting)
+Instructor --> (See Upcoming Meetings)
+Instructor --> (List of Registered Students)
+Instructor --> (Notification)
+Instructor --> (Logout)
+
+Learner --> (Signup)
+Learner --> (Login)
+Learner --> (Edit Profile)
+Learner --> (Choose Courses)
+Learner --> (Make Payments)
+Learner --> (Video Recommendations)
+Learner --> (Access Materials)
+Learner --> (See Schedule)
+Learner --> (Join Meeting)
+Learner --> (See Progress)
+Learner --> (Notification)
+Learner --> (Logout)
+
+App --> (Signup)
+App --> (Login)
+App --> (Edit Profile)
+App --> (Register Courses)
+App --> (Upload Content)
+App --> (Schedule Meeting)
+App --> (See Upcoming Meetings)
+App --> (List of Registered Students)
+App --> (Notification)
+App --> (Logout)
+
+(Upload Content) --> (Notification)
+(List of Registered Students) --> (See Upcoming Meetings)
+(Join Meeting) --> (See Progress)
+
+@enduml

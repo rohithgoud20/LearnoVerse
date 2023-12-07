@@ -40,12 +40,12 @@
                 android:id="@+id/sessionsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No. of Sessions" />
+                android:text="@string/no_of_sessions" />
             <TextView
                 android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="status"
+                android:text="@string/status"
                 android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:background="@drawable/badge_background"

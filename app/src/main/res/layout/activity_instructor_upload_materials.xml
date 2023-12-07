@@ -22,7 +22,7 @@
                 android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload PDF Material"
+                android:text="@string/upload_pdf_material"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Enter Material Name"
+                android:hint="@string/enter_material_name"
                 android:inputType="text"
                 android:imeOptions="actionNext"
                 android:layout_gravity="center"/>
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Enter PDF Link"
+                android:hint="@string/enter_pdf_link"
                 android:inputType="text"
                 android:imeOptions="actionDone"
                 android:layout_gravity="center"/>
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:text="Upload"
+                android:text="@string/upload"
                 android:background="@color/colorAccent"
                 android:textColor="@android:color/white"/>
 

@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:hint="Highest Qualification"
+                android:hint="@string/highest_qualification"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@android:color/black"
@@ -124,7 +124,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Availabilty"/>
+                android:text="@string/availabilty"/>
             <Spinner
                 android:id="@+id/availabilitySpinner"
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                 android:id="@+id/expert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Expertise"
+                android:hint="@string/expertise"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColorHint="@color/colorAccent"
                 android:textColor="@android:color/black"
@@ -146,7 +146,7 @@
                 android:id="@+id/exp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Experience"
+                android:hint="@string/experience"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColorHint="@color/colorAccent"
                 android:textColor="@android:color/black"
@@ -157,7 +157,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SUBMIT"
+                android:text="@string/submit"
                 android:id="@+id/conButton"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"

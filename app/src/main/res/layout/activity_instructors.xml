@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Instructor Name"
+                    android:text="@string/instructor_name"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -44,7 +44,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description of the instructor. Brief introduction and expertise."/>
+                    android:text="@string/description_of_the_instructor_brief_introduction_and_expertise"/>
 
             </LinearLayout>
 

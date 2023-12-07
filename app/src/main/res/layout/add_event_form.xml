@@ -8,7 +8,7 @@
         android:id="@+id/edit_text_event_title"
         android:layout_width="386dp"
         android:layout_height="84dp"
-        android:hint="Event Title"
+        android:hint="@string/event_title"
         android:inputType="text"
         android:minHeight="48dp"
         tools:ignore="DuplicateClickableBoundsCheck" />
@@ -19,7 +19,7 @@
         android:layout_height="74dp"
         android:layout_alignBottom="@id/edit_text_event_title"
         android:layout_marginBottom="-105dp"
-        android:hint="Start Time"
+        android:hint="@string/start_time"
         android:inputType="text"
         android:minHeight="48dp"
         tools:ignore="DuplicateClickableBoundsCheck" />
@@ -30,7 +30,7 @@
         android:layout_height="81dp"
         android:layout_alignBottom="@id/edit_text_start_time"
         android:layout_marginBottom="-125dp"
-        android:hint="End Time"
+        android:hint="@string/end_time"
         android:inputType="text"
         android:minHeight="48dp" />
 
@@ -40,7 +40,7 @@
         android:layout_height="67dp"
         android:layout_alignBottom="@id/edit_text_end_time"
         android:layout_marginBottom="-96dp"
-        android:hint="Subject"
+        android:hint="@string/subject"
         android:inputType="text"
         android:minHeight="48dp" />
 
@@ -50,7 +50,7 @@
         android:layout_height="76dp"
         android:layout_alignBottom="@id/edit_text_subject"
         android:layout_marginBottom="-90dp"
-        android:hint="Teacher's Name"
+        android:hint="@string/teacher_s_name"
         android:inputType="text"
         android:minHeight="48dp" />
 
@@ -61,7 +61,7 @@
 
         android:layout_alignBottom="@id/edit_text_teacher_name"
         android:layout_marginBottom="-111dp"
-        android:hint="Location"
+        android:hint="@string/location"
         android:minHeight="48dp" />
 
     <Button

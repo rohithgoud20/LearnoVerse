@@ -12,7 +12,7 @@
         android:id="@+id/courseNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course Name"
+        android:text="@string/course_name"
         android:textSize="18sp"
         android:textColor="@android:color/black" />
 
@@ -29,5 +29,5 @@
         android:id="@+id/rateCourseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rate Course" />
+        android:text="@string/rate_course" />
 </LinearLayout>

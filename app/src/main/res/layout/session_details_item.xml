@@ -9,17 +9,17 @@
         android:id="@+id/sessionDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Date"/>
+        android:text="@string/session_date"/>
 
     <TextView
         android:id="@+id/sessionNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Name"/>
+        android:text="@string/session_name"/>
 
     <TextView
         android:id="@+id/sessionTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Time"/>
+        android:text="@string/session_time"/>
 </LinearLayout>

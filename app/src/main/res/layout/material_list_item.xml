@@ -9,7 +9,7 @@
         android:id="@+id/materialNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Material Name"
+        android:text="@string/material_name"
         android:textStyle="bold"
         android:textSize="16sp"/>
 
@@ -17,6 +17,6 @@
         android:id="@+id/pdfLinkTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PDF Link"
+        android:text="@string/pdf_link"
         android:textSize="14sp"/>
 </LinearLayout>

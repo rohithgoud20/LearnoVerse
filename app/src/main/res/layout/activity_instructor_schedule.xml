@@ -17,7 +17,7 @@
                 android:id="@+id/textViewUpcomingSessions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upcoming Sessions"
+                android:text="@string/upcoming_sessions"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />

@@ -1,0 +1,84 @@
+@startuml
+class User {
+  - userId: int
+  - username: String
+  - password: String
+  - email: String
+  - profilePicture: Image
+  + signUp(): void
+  + logIn(): void
+  + editProfile(): void
+  + viewProfile(): void
+  + logOut(): void
+}
+
+class Learner {
+  - coursesEnrolled: List<Course>
+  - payments: List<Payment>
+  - videosRecommended: List<Video>
+  - materialsAccessed: List<Material>
+  + chooseCourses(): void
+  + makePayment(): void
+  + viewRecommendations(): void
+  + accessMaterials(): void
+  + seeSchedule(): void
+  + joinMeeting(link: String): void
+  + seeProgress(): void
+  + receiveNotification(message: String): void
+}
+
+class Instructor {
+  - coursesTeaching: List<Course>
+  - meetingsScheduled: List<Meeting>
+  - studentsRegistered: List<Learner>
+  + registerCourses(): void
+  + uploadContent(): void
+  + scheduleMeeting(): void
+  + viewUpcomingMeetings(): void
+  + viewRegisteredStudents(course: Course): List<Learner>
+  + sendNotificationToStudents(message: String): void
+}
+
+class Course {
+  - courseId: int
+  - courseName: String
+  - description: String
+  + getCourseDetails(): void
+}
+
+class Meeting {
+  - meetingId: int
+  - date: Date
+  - link: String
+  + getMeetingDetails(): void
+}
+
+class Material {
+  - materialId: int
+  - content: String
+  + getMaterialDetails(): void
+}
+
+class Payment {
+  - paymentId: int
+  - amount: double
+  - date: Date
+  + getPaymentDetails(): void
+}
+
+User <|-- Learner
+User <|-- Instructor
+Learner --> Course
+Learner --> Payment
+Learner --> Video
+Learner --> Material
+Instructor --> Course
+Instructor --> Meeting
+Instructor --> Learner
+Instructor --> Material
+Payment --> Learner
+Meeting --> Learner
+Material --> Learner
+Video --> Learner
+
+@enduml

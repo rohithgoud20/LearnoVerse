@@ -1,0 +1,52 @@
+@startuml
+!define ICONURL https://www.plantuml.com/plantuml/img/
+!define ICON(name) [![](ICONURL{name}.png =20x20)]
+
+actor Learner as Learner
+actor System as App
+
+rectangle Learnoverse {
+    (Signup)
+    (Login)
+    (Edit Profile)
+    (Choose Courses)
+    (Make Payments)
+    (Video Recommendations)
+    (Access Materials)
+    (See Schedule)
+    (Join Meeting)
+    (See Progress)
+    (Notification)
+    (Logout)
+}
+
+Learner --> (Signup)
+Learner --> (Login)
+Learner --> (Edit Profile)
+Learner --> (Choose Courses)
+Learner --> (Make Payments)
+Learner --> (Video Recommendations)
+Learner --> (Access Materials)
+Learner --> (See Schedule)
+Learner --> (Join Meeting)
+Learner --> (See Progress)
+Learner --> (Notification)
+Learner --> (Logout)
+
+App --> (Signup)
+App --> (Login)
+App --> (Edit Profile)
+App --> (Choose Courses)
+App --> (Make Payments)
+App --> (Video Recommendations)
+App --> (Access Materials)
+App --> (See Schedule)
+App --> (Join Meeting)
+App --> (See Progress)
+App --> (Notification)
+App --> (Logout)
+
+(Access Materials) --> (Notification)
+(Join Meeting) --> (See Progress)
+
+@enduml

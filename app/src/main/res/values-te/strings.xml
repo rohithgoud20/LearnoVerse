@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">లేర్నోవెర్స్</string>
+    <string-array name="interests_array">
+        <item>వాడకం రకం</item>
+        <item>అభ్యర్థి</item>
+        <item>అధ్యాపకుడు</item>
+    </string-array>
+    <string name="select_student_prompt">ఒక అభ్యర్థిని ఎంచుకోండి</string>
+    <string-array name="status_options">
+        <item>ప్రోగ్రెస్</item>
+        <item>పూర్తి</item>
+    </string-array>
+    <string-array name="availability_options">
+        <item>పూర్తి సమయం</item>
+        <item>పార్ట్ టైమ్</item>
+    </string-array>
+
+    <string name="first_fragment_label">మొదటి ఫ్రాగ్మెంట్</string>
+    <string name="second_fragment_label">రెండవ ఫ్రాగ్మెంట్</string>
+    <string name="lorem_ipsum">లోరెమ్ ఇప్సమ్ డాలర్ సిట్ అమెట్, కాన్సెక్టేట్యూర్ అడిపిసింగ్ ఎలిట్. సెడ్ డో ఎమిడ్వస్ టెమ్పోర్ ఇంకాంట్ ఉట్ లాబోరే ఎట్ డాలర్ మాగ్నా అలిక్వా. ఉట్ ఎనిమాద్ మినిమ్ వెనియాం, క్విస్ నాస్ట్రడ్ ఎక్సర్సిటేషన్ యులామ్కో లేబోరిస్ నిసి ఉట్ అలిక్విప్ ఎక్స్ ఇయా కామ్మోడో కాంసెక్వాట్.</string>
+    <string name="i_m_a_learner">అభ్యర్థిగా సైన్ అప్</string>
+    <string name="i_m_an_instructor">అధ్యాపకుడుగా సైన్ అప్</string>
+    <string name="back">వెనకకు</string>
+    <string name="forward">ముందుకు</string>
+    <string name="Weekly">వారం</string>
+    <string name="SUN">ఆది</string>
+    <string name="MON">సోమ</string>
+    <string name="TUE">మంగళ</string>
+    <string name="WED">బుధ</string>
+    <string name="THUR">గురు</string>
+    <string name="FRI">శుక్ర</string>
+    <string name="SAT">శని</string>
+    <string name="Enroll_for_Course">కోర్సుకు చేరుక</string>
+    <string name="Schedule">షెడ్యూల్</string>
+    <string name="Comment_for_Instructor">అధ్యాపకుడకు వ్యాఖ్యానం</string>
+    <string name="Enter_your_comments">మీ వ్యాఖ్యలను నమోదు చేయండి</string>
+    <string name="Make_Payment">చెల్లింపు చేయండి</string>
+    <string name="Name">పేరు:</string>
+    <string name="Date">తేది</string>
+    <string name="Time">సమయం</string>
+    <string name="Save">భద్రపరచండి</string>
+    <string name="Welcome">స్వాగతం</string>
+    <string name="Choose_Subjects">విషయాలను ఎంచుకోండండి</string>
+    <string name="Video_Recommendations">వీడియో సూచనలు</string>
+    <string name="Photography">ఫోటోగ్రఫీ</string>
+    <string name="Photography_Basics_in_10_MINUTES">10 నిమిషాల్లో ఫోటోగ్రఫీ అంశాలు</string>
+    <string name="Coding">కోడింగ్</string>
+    <string name="you_need_to_learn_Python_RIGHT_NOW">మీరు ఇప్పటికే Python నేర్చుకోవాల్సింది!!</string>
+    <string name="Maths">గణితం</string>
+    <string name="How_to_Get_Better_at_Math">గణితంలో బాగా పోగొట్టడానికి ఎలా</string>
+    <string name="My_Courses">నా కోర్సులు</string>
+    <string name="Offer_New_Course">కొత్త కోర్సు అంగీకరించండి</string>
+    <string name="Courses">కోర్సులు</string>
+    <string name="Upload_Content">కంటెంట్ అప్‌లోడ్ చేయండి</string>
+    <string name="Registered_Students">నమోదిన విద్యార్థులు</string>
+    <string name="First_Name">మొదటి పేరు</string>
+    <string name="Last_Name">చివరి పేరు</string>
+    <string name="Select_Date_of_Birth">పుట్టిన తేదిని ఎంచుకోండి</string>
+    <string name="Date_of_Birth">పుట్టిన తేది</string>
+    <string name="Email_ID">ఇమెయిల్ ఐడి</string>
+    <string name="highest_qualification">అత్యున్నత అర్హత</string>
+    <string name="availabilty">అంతర్గతం</string>
+    <string name="expertise">నిపుణత</string>
+    <string name="experience">అనుభవం</string>
+    <string name="submit">సమర్పించండి</string>
+    <string name="no_students_registered_for_this_course_yet">ఇంకా ఈ కోర్సుకు ఎటువంటి విద్యార్థులు నమోదు చేయలేదు</string>
+    <string name="upcoming_sessions">రెండు సమీప సమయాలు</string>
+    <string name="upload_pdf_material">PDF సామగ్రిని అప్‌లోడ్ చేయండి</string>
+    <string name="enter_material_name">సామగ్రి పేరు నమోదు చేయండి</string>
+    <string name="enter_pdf_link">PDF లింక్‌ని నమోదు చేయండి</string>
+    <string name="upload">అప్‌లోడ్</string>
+    <string name="instructor_name">అధ్యాపకుడి పేరు</string>
+    <string name="description_of_the_instructor_brief_introduction_and_expertise">అధ్యాపకుడి వివరణ. సంక్షేప పరిచయం మరియు నిపుణత.</string>
+    <string name="complete_your_profile">మీ ప్రొఫైల్‌ను పూర్తి చేయండి!</string>
+    <string name="app_logo">అప్ లోగో</string>
+    <string name="last_name">చివరి పేరు</string>
+    <string name="select_date_of_birth">పుట్టిన తేదిని ఎంచకుండండి</string>
+    <string name="date_of_birth">పుట్టిన తేది</string>
+    <string name="male">పురుషుడు</string>
+    <string name="female">స్త్రీ</string>
+    <string name="email">ఇమెయిల్</string>
+    <string name="phone_number">ఫోన్ నంబర్</string>
+    <string name="interests">ఆసక్తిలు</string>
+    <string name="login">లాగిన్</string>
+    <string name="username">యూజర్ పేరు</string>
+    <string name="password">పాస్‌వర్డ్</string>
+    <string name="don_t_have_an_account_sign_up">ఖాతా లేదా? సైన్ అప్</string>
+    <string name="john_doe">జాన్ డో</string>
+    <string name="edit_date_of_birth">పుట్టిన తేదిని సవరించండి</string>
+    <string name="mobile_number">మొబైల్ నంబర్</string>
+    <string name="country">దేశం</string>
+    <string name="united_states">యునైటెడ్ స్టేట్స్</string>
+    <string name="edit_highest_qualification">అత్యున్నత అర్హతను సవరించండి</string>
+    <string name="bachelor_s_degree">బాచిలర్స్ డిగ్రీ</string>
+    <string name="travel_photography_hiking">ప్రయాణం, ఫోటోగ్రఫీ, హైకింగ్</string>
+    <string name="languages_known">అవగాహన ఉంచిన భాషలు</string>
+    <string name="edit_languages_known">అవగాహన ఉంచిన భాషలను సవరించండి</string>
+    <string name="english_spanish_french">ఆంగ్లం, స్పానిష్, ఫ్రెంచ్</string>
+    <string name="gender">లింగం</string>
+    <string name="availability">అంతర్గతం</string>
+    <string name="availabity">అంతర్గతం</string>
+    <string name="edit_availability">అంతర్గతంను సవరించండి</string>
+    <string name="expierence">అనుభవం</string>
+    <string name="edit_experience">అనుభవాన్ని సవరించండి</string>
+    <string name="my_courses">నా కోర్సులు</string>
+    <string name="create_account">ఖాతా సృష్టించండి</string>
+    <string name="course_materials">కోర్సు సామగ్రికలు</string>
+    <string name="december_2023">డిసెంబర్ 2023</string>
+    <string name="new_event">కొత్త సంఘటన</string>
+    <string name="sat">శని</string>
+    <string name="fri">శుక్ర</string>
+    <string name="thur">గురు</string>
+    <string name="wed">బుధ</string>
+    <string name="tue">మంగళ</string>
+    <string name="mon">సోమ</string>
+    <string name="sun">ఆది</string>
+    <string name="event_title">సంఘటన శీర్షిక</string>
+    <string name="start_time">ప్రారంభ సమయం</string>
+    <string name="end_time">ముగింపు సమయం</string>
+    <string name="subject">విషయం</string>
+    <string name="teacher_s_name">ఉపాధ్యాయుడి పేరు</string>
+    <string name="location">స్థానం</string>
+    <string name="course_name">కోర్సు పేరు</string>
+    <string name="rate_course">కోర్సు రేట్ చేయండి</string>
+    <string name="enroll">చేరవలసినది</string>
+    <string name="number_of_sessions">సత్రాల సంఖ్య</string>
+    <string name="price">ధర</string>
+    <string name="meeting_link">మీటింగ్ లింక్</string>
+    <string name="course_description">కోర్సు వివరణ</string>
+    <string name="next">తరువాత</string>
+    <string name="no_of_sessions">సత్రాల సంఖ్య</string>
+    <string name="status">స్థితి</string>
+    <string name="material_name">సామగ్రి పేరు</string>
+    <string name="pdf_link">PDF లింక్</string>
+    <string name="meet_link">మీట్ లింక్</string>
+    <string name="session_date">సత్ర తేది</string>
+    <string name="session_name">సత్ర పేరు</string>
+    <string name="session_time">సత్ర సమయం</string>
+    <string name="ok">అనుమతి</string>
+    <string name="student">విద్యార్థి:</string>
+    <string name="payment_done">చెల్లించిన డబ్బు:</string>
+    <string name="learner_comment">అభ్యర్థి వ్యాఖ్య:</string>
+    <string name="enter_meeting_link">మీటింగ్ లింక్‌ను నమోదు చేయండి</string>
+    <string name="send_meet_link">మీట్ లింక్‌ను పంపండి</string>
+</resources>
+
+
+
